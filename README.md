@@ -1,5 +1,11 @@
 Ristinolla-projekti kurssille Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit (periodi II), Laboratoriotyöskentely.
 
+
+Viikko 2 (Päivitetty 12.11.2021)
+Viikkoraportti 2
+https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/viikkoraportti%202.pdf
+
+
 Viikko 1 (Päivitetty 6.11.2021)
 
 Määrittelydokumentti
