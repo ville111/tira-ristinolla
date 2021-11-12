@@ -1,3 +1,5 @@
 venv/
-ristinolla/__pycache__
+__pycache__
 main_old.py
+.pytest_cache
+.vscode
