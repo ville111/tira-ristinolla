@@ -1,5 +1,7 @@
 class Ruudukko:
-   
+    """ Tämä luokka pitää kirjaa pelin ruudukosta: mitkä ruudut ovat tyhjiä ja missä on pelaajien merkit.
+    
+    """
     def __init__(self, n:int): 
        self.n = n
        self.ruudut = [[-1]* n for i in range(n)]

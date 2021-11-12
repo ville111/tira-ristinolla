@@ -1,4 +1,10 @@
 class Pelaaja:
+    """ Pelaaja mallintava luokka. Tätä käytetään pelilogiikassa
+        kun pitää tietä mikä merkki pelaajalla ja myös välittämään hiirellä valitut ruudut. Kun käyttäjä
+        valitsee pelikentältä ruudun tieto tallennetaan aseta_piste-metodilla. Ja pelilogiikka kysyy siirrä-metodilla
+        mihin ruutuun merkki laitettiin. Tuleva tietokone pelaaja tulee käytämään tätä samaa formaattia (rajapintana).
+    
+    """
 
     def __init__(self, merkki:str):
         self.merkki = merkki

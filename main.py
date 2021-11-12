@@ -7,6 +7,7 @@ from ristinolla.peli import Peli
 
 class Ristinolla:
     """ Pelin pääluokka 
+
     """
 
     def __init__(self):
@@ -39,6 +40,10 @@ class Ristinolla:
 
 
     def tunnista_ruutu(self, x, y):
+        """ Kääntää näytön pikselikoordinaatin ruudukon avaimeksi.
+            Ottaa paremetrina (x,y) hiiren koordinatin (mihin on klikattu)
+            Palauttaa ruudukko-taulukon avaimet i ja j
+        """
         x1 = 0
         y1 = 0
         n = self.ruudukko.n
@@ -50,6 +55,9 @@ class Ristinolla:
 
 
     def piirra_ruudukko(self):
+        """ Piirtää itse ruudukon, sekä merkit (X tai 0) oikeisiin ruutuihin.
+        """
+        
         self.ikkuna.fill((100, 100, 100))
         x1 = 0
         y1 = 0
