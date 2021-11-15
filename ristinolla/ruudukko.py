@@ -17,3 +17,34 @@ class Ruudukko:
             return None
         else:
             return self.ruudut[x][y]
+
+
+    def viiden_suora(self, merkki):
+        n = self.n
+        for i in range (n):
+            for j in range(n):
+                if i + 4 < n and (self.ruudut[i][j] == merkki and \
+                    self.ruudut[i+1][j] == merkki and \
+                    self.ruudut[i+2][j]  == merkki and \
+                    self.ruudut[i+3][j]  == merkki  and \
+                    self.ruudut[i+4][j] == merkki):
+                    return True
+                elif j + 4 < n and (self.ruudut[i][j] == merkki and \
+                        self.ruudut[i][j+1] == merkki and \
+                        self.ruudut[i][j+2]  == merkki and \
+                        self.ruudut[i][j+3]  == merkki  and \
+                        self.ruudut[i][j+4] == merkki):
+                        return True
+                elif i + 4 < n and j + 4 < n and (self.ruudut[i][j] == merkki and \
+                        self.ruudut[i+1][j+1] == merkki and \
+                        self.ruudut[i+2][j+2]  == merkki and \
+                        self.ruudut[i+3][j+3]  == merkki  and \
+                        self.ruudut[i+4][j+4] == merkki):
+                        return True                
+                elif i + 4 < n and j - 4 >= 0 and (self.ruudut[i][j] == merkki and \
+                        self.ruudut[i+1][j-1] == merkki and \
+                        self.ruudut[i+2][j-2]  == merkki and \
+                        self.ruudut[i+3][j-3]  == merkki  and \
+                        self.ruudut[i+4][j-4] == merkki):
+                        return True
+        return False

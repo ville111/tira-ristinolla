@@ -22,8 +22,16 @@ class Peli:
         return self.pelaajat[self.vuoro]
 
 
+    def tarkista_voittaja(self):
+        return self.ruudukko.viiden_suora(self.pelaaja().merkki)
+
+
     def siirra(self, merkki:str, x:int, y:int):
         self.ruudukko.aseta_merkki(merkki, x, y)
+        
+    
+    def vaihda_vuoro(self):
+
         if self.vuoro == 0:
             self.vuoro = 1
         else:
