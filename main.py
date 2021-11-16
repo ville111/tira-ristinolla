@@ -1,5 +1,5 @@
 import pygame
-from ristinolla.ruudukko import Ruudukko 
+from ristinolla.ruudukko import Ruudukko
 from ristinolla.pelaaja import Pelaaja
 from ristinolla.tietokonepelaaja import Tietokonepelaaja
 from ristinolla.peli import Peli
@@ -7,7 +7,7 @@ from ristinolla.peli import Peli
 
 
 class Ristinolla:
-    """ Pelin pääluokka 
+    """ Pelin pääluokka
     """
 
     def __init__(self):
@@ -15,7 +15,9 @@ class Ristinolla:
         self.ikkunan_korkeus = 480
         self.peli_jatkuu = True
         self.ruudukko = Ruudukko(20)
-        self.peli = Peli(Pelaaja("X", "Pelaaja1"), Tietokonepelaaja("0", "Pelaaja 2"), self.ruudukko)
+        self.peli = Peli(Pelaaja("X", "Pelaaja1"),
+                         Tietokonepelaaja("0", "Pelaaja 2"),
+                         self.ruudukko)
         pygame.init()
         self.ikkuna = pygame.display.set_mode((self.ikkunan_leveys, self.ikkunan_korkeus+30))
         pygame.display.set_caption("Ristinolla")
@@ -23,7 +25,7 @@ class Ristinolla:
         self.fontti = pygame.font.SysFont("Arial", 24)
 
 
-    def run(self):    
+    def run(self):
         self.ikkuna.fill((100, 100, 100))
         while True:
             pelaaja = self.peli.pelaaja()
@@ -32,7 +34,7 @@ class Ristinolla:
                     x, y = self.tunnista_ruutu(event.pos[0], event.pos[1])
                     pelaaja.aseta_piste(x,y)
                 if event.type == pygame.QUIT:
-                    exit()  
+                    exit()
             if self.peli_jatkuu:
                 siirto = pelaaja.siirra()
                 if siirto:
@@ -46,7 +48,7 @@ class Ristinolla:
                         self.peli.vaihda_vuoro()
                         self.tilaviesti(f"Pelivuorossa: {self.peli.pelaaja().nimi}")
             self.piirra_ruudukko()
-            self.clock.tick(60)    
+            self.clock.tick(60)
 
 
     def tunnista_ruutu(self, x, y):
@@ -54,11 +56,10 @@ class Ristinolla:
             Ottaa paremetrina (x,y) hiiren koordinatin (mihin on klikattu)
             Palauttaa ruudukko-taulukon avaimet i ja j
         """
-        x1 = 0
-        y1 = 0
+
         n = self.ruudukko.n
-        leveys = (self.ikkunan_korkeus - x1*2) / n
-        korkeus = (self.ikkunan_korkeus - y1*2) / n
+        leveys = (self.ikkunan_korkeus) / n
+        korkeus = (self.ikkunan_korkeus) / n
         ruutu_x =  int(x / leveys - (x / leveys)*0.001)
         ruutu_y =  int(y / korkeus - ( y / korkeus)*0.001)
         return (ruutu_x, ruutu_y)
@@ -71,21 +72,26 @@ class Ristinolla:
     def piirra_ruudukko(self):
         """ Piirtää itse ruudukon, sekä merkit (X tai 0) oikeisiin ruutuihin.
         """
-        x1 = 0
-        y1 = 0
-        leveys = self.ikkunan_korkeus - x1*2
-        korkeus = self.ikkunan_korkeus - y1*2
-        pygame.draw.rect(self.ikkuna, (255, 255, 255), (x1, y1 , leveys, korkeus), 1)
+
+        leveys = self.ikkunan_korkeus
+        korkeus = self.ikkunan_korkeus
+        pygame.draw.rect(self.ikkuna, (255, 255, 255), (0, 0 , leveys, korkeus), 1)
         for i in range (self.ruudukko.n):
-            vaaka_positio = (korkeus) / self.ruudukko.n * i + y1 
-            pygame.draw.line(self.ikkuna, (255,255,255), (x1, vaaka_positio), (leveys+x1, vaaka_positio),1)
-            for j in range (self.ruudukko.n):   
-                    pysty_positio = (leveys) / self.ruudukko.n * j + y1 
-                    pygame.draw.line(self.ikkuna, (255,255,255), (pysty_positio, y1), (pysty_positio, korkeus+y1-2),1)    
-                    merkki = self.ruudukko.anna_merkki(i,j)
-                    if merkki:
-                        self.ikkuna.blit(self.fontti.render(merkki, True, (255, 0, 0)),(vaaka_positio+4, pysty_positio+2))
-      
+            vaaka_positio = (korkeus) / self.ruudukko.n * i
+            pygame.draw.line(self.ikkuna, (255,255,255),
+                            (0, vaaka_positio),
+                            (leveys, vaaka_positio),1)
+            for j in range (self.ruudukko.n):
+                pysty_positio = (leveys) / self.ruudukko.n * j
+                pygame.draw.line(self.ikkuna,
+                            (255,255,255),
+                            (pysty_positio, 0),
+                            (pysty_positio, korkeus-2),1)
+                merkki = self.ruudukko.anna_merkki(i,j)
+                if merkki:
+                    self.ikkuna.blit(self.fontti.render(merkki, True, (255, 0, 0)),
+                                                        (vaaka_positio+4, pysty_positio+2))
+
         pygame.display.flip()
 
 

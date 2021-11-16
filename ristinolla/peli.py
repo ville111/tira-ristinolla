@@ -8,9 +8,9 @@ class Peli:
         self.vuoro = 0
         self.aloitusvuoro = 0
         self.ruudukko = ruudukko
-       
-    
-    def uusi_peli(self):        
+
+
+    def uusi_peli(self):
         if self.aloitusvuoro == 0:
             self.aloitusvuoro = 1
         else:
@@ -29,10 +29,9 @@ class Peli:
     def siirra(self, merkki:str, x:int, y:int):
         self.ruudukko.aseta_merkki(merkki, x, y)
 
-    
+
     def vaihda_vuoro(self):
         if self.vuoro == 0:
             self.vuoro = 1
         else:
             self.vuoro = 0
-

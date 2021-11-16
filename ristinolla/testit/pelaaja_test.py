@@ -2,7 +2,6 @@ import unittest
 from ristinolla.pelaaja import Pelaaja
 
 
-
 class PelaajaTest(unittest.TestCase):
     def setUp(self):
         self.pelaaja = Pelaaja("X", "nimi")

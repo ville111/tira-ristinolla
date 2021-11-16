@@ -1,10 +1,13 @@
+
+
 class Ruudukko:
-    """ Tämä luokka pitää kirjaa pelin ruudukosta: mitkä ruudut ovat tyhjiä ja missä on pelaajien merkit.
-    
+    """ Tämä luokka pitää kirjaa pelin ruudukosta: mitkä ruudut
+        ovat tyhjiä ja missä on pelaajien merkit.
     """
-    def __init__(self, n:int): 
-       self.n = n
-       self.ruudut = [[-1]* n for i in range(n)]
+
+    def __init__(self, n:int):
+        self.n = n
+        self.ruudut = [[-1]* n for i in range(n)]
 
 
     def aseta_merkki(self, merkki, x, y):
@@ -15,8 +18,7 @@ class Ruudukko:
     def anna_merkki(self, x, y):
         if self.ruudut[x][y] == -1:
             return None
-        else:
-            return self.ruudut[x][y]
+        return self.ruudut[x][y]
 
 
     def viiden_suora(self, merkki):
@@ -34,17 +36,17 @@ class Ruudukko:
                         self.ruudut[i][j+2]  == merkki and \
                         self.ruudut[i][j+3]  == merkki  and \
                         self.ruudut[i][j+4] == merkki):
-                        return True
+                    return True
                 elif i + 4 < n and j + 4 < n and (self.ruudut[i][j] == merkki and \
                         self.ruudut[i+1][j+1] == merkki and \
                         self.ruudut[i+2][j+2]  == merkki and \
                         self.ruudut[i+3][j+3]  == merkki  and \
                         self.ruudut[i+4][j+4] == merkki):
-                        return True                
+                    return True
                 elif i + 4 < n and j - 4 >= 0 and (self.ruudut[i][j] == merkki and \
                         self.ruudut[i+1][j-1] == merkki and \
                         self.ruudut[i+2][j-2]  == merkki and \
                         self.ruudut[i+3][j-3]  == merkki  and \
                         self.ruudut[i+4][j-4] == merkki):
-                        return True
+                    return True
         return False
