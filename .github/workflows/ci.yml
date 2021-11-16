@@ -14,7 +14,6 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run tests and collect coverage
         run: |
-          coverage run tests.py
-          coverage xml
+          bash run_coverage.sh
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
