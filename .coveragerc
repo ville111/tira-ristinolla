@@ -1,0 +1,5 @@
+[run]
+source = ristinolla
+omit = 
+	ristinolla/testit/**
+	ristinolla/__init__.py

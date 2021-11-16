@@ -1,6 +1,7 @@
 import pygame
 from ristinolla.ruudukko import Ruudukko 
 from ristinolla.pelaaja import Pelaaja
+from ristinolla.tietokonepelaaja import Tietokonepelaaja
 from ristinolla.peli import Peli
 
 
@@ -13,9 +14,8 @@ class Ristinolla:
         self.ikkunan_leveys = 480
         self.ikkunan_korkeus = 480
         self.peli_jatkuu = True
-        
         self.ruudukko = Ruudukko(20)
-        self.peli = Peli(Pelaaja("X", "Pelaaja1"), Pelaaja("0", "Pelaaja 2"), self.ruudukko)
+        self.peli = Peli(Pelaaja("X", "Pelaaja1"), Tietokonepelaaja("0", "Pelaaja 2"), self.ruudukko)
         pygame.init()
         self.ikkuna = pygame.display.set_mode((self.ikkunan_leveys, self.ikkunan_korkeus+30))
         pygame.display.set_caption("Ristinolla")
@@ -71,22 +71,17 @@ class Ristinolla:
     def piirra_ruudukko(self):
         """ Piirtää itse ruudukon, sekä merkit (X tai 0) oikeisiin ruutuihin.
         """
-        
-        
         x1 = 0
         y1 = 0
         leveys = self.ikkunan_korkeus - x1*2
         korkeus = self.ikkunan_korkeus - y1*2
-
         pygame.draw.rect(self.ikkuna, (255, 255, 255), (x1, y1 , leveys, korkeus), 1)
-
         for i in range (self.ruudukko.n):
             vaaka_positio = (korkeus) / self.ruudukko.n * i + y1 
             pygame.draw.line(self.ikkuna, (255,255,255), (x1, vaaka_positio), (leveys+x1, vaaka_positio),1)
             for j in range (self.ruudukko.n):   
                     pysty_positio = (leveys) / self.ruudukko.n * j + y1 
-                    pygame.draw.line(self.ikkuna, (255,255,255), (pysty_positio, y1), (pysty_positio, korkeus+y1-2),1)
-                    
+                    pygame.draw.line(self.ikkuna, (255,255,255), (pysty_positio, y1), (pysty_positio, korkeus+y1-2),1)    
                     merkki = self.ruudukko.anna_merkki(i,j)
                     if merkki:
                         self.ikkuna.blit(self.fontti.render(merkki, True, (255, 0, 0)),(vaaka_positio+4, pysty_positio+2))

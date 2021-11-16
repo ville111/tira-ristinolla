@@ -28,10 +28,9 @@ class Peli:
 
     def siirra(self, merkki:str, x:int, y:int):
         self.ruudukko.aseta_merkki(merkki, x, y)
-        
+
     
     def vaihda_vuoro(self):
-
         if self.vuoro == 0:
             self.vuoro = 1
         else:

@@ -5,7 +5,7 @@ from ristinolla.pelaaja import Pelaaja
 
 class PelaajaTest(unittest.TestCase):
     def setUp(self):
-        self.pelaaja = Pelaaja("X")
+        self.pelaaja = Pelaaja("X", "nimi")
 
     
     def test_aseta_piste(self):
@@ -23,5 +23,4 @@ class PelaajaTest(unittest.TestCase):
    
 
     def test_siirra_ei_pistetta(self):
-        self.pelaaja = Pelaaja("X")
         self.assertIsNone(self.pelaaja.siirra()) 

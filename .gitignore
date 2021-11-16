@@ -3,3 +3,6 @@ __pycache__
 main_old.py
 .pytest_cache
 .vscode
+.DS_Store
+.coverage
+coverage.xml
