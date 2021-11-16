@@ -16,6 +16,5 @@ https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/viikkoraport
 
 
  
-[![Workflow for Codecov example-python](https://github.com/ville111/tira-ristinolla/actions/workflows/ci.yml/badge.svg)](https://github.com/ville111/tira-ristinolla/actions/workflows/ci.yml)
-
+[![codecov](https://codecov.io/gh/ville111/tira-ristinolla/branch/main/graph/badge.svg?token=K7MIK0QBCR)](https://codecov.io/gh/ville111/tira-ristinolla)
 
