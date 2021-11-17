@@ -6,7 +6,7 @@ class Pelaaja:
         Tuleva tietokonepelaaja tulee käytämään tätä samaa formaattia (rajapintana).
     """
 
-    def __init__(self, merkki:str, nimi:str):
+    def __init__(self, merkki:str, nimi:str, ruudukko=None):
         self.merkki = merkki
         self.nimi = nimi
         self.x = -1

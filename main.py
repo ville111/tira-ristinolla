@@ -16,7 +16,7 @@ class Ristinolla:
         self.peli_jatkuu = True
         self.ruudukko = Ruudukko(20)
         self.peli = Peli(Pelaaja("X", "Pelaaja1"),
-                         Tietokonepelaaja("0", "Pelaaja 2"),
+                         Tietokonepelaaja("0", "Pelaaja 2", self.ruudukko),
                          self.ruudukko)
         pygame.init()
         self.ikkuna = pygame.display.set_mode((self.ikkunan_leveys, self.ikkunan_korkeus+30))
@@ -29,10 +29,12 @@ class Ristinolla:
         self.ikkuna.fill((100, 100, 100))
         while True:
             pelaaja = self.peli.pelaaja()
+               
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = self.tunnista_ruutu(event.pos[0], event.pos[1])
-                    pelaaja.aseta_piste(x,y)
+                    #if isinstance(pelaaja,Pelaaja):
+                        x, y = self.tunnista_ruutu(event.pos[0], event.pos[1])
+                        pelaaja.aseta_piste(x,y)
                 if event.type == pygame.QUIT:
                     exit()
             if self.peli_jatkuu:
@@ -61,7 +63,7 @@ class Ristinolla:
         leveys = (self.ikkunan_korkeus) / n
         korkeus = (self.ikkunan_korkeus) / n
         ruutu_x =  int(x / leveys - (x / leveys)*0.001)
-        ruutu_y =  int(y / korkeus - ( y / korkeus)*0.001)
+        ruutu_y =  int(y / korkeus - (y / korkeus)*0.001)
         return (ruutu_x, ruutu_y)
 
 
@@ -89,6 +91,7 @@ class Ristinolla:
                             (pysty_positio, korkeus-2),1)
                 merkki = self.ruudukko.anna_merkki(i,j)
                 if merkki:
+                    #print("merkki", merkki, "vaaka", vaaka_positio, "pysty", pysty_positio)
                     self.ikkuna.blit(self.fontti.render(merkki, True, (255, 0, 0)),
                                                         (vaaka_positio+4, pysty_positio+2))
 
