@@ -17,10 +17,8 @@ class Tietokonepelaaja():
 
     def siirra(self):
         if not self.x == -1 and not self.y == -1:
-            #print("siirretään")
             ruudut = copy.deepcopy(self.ruudukko.ruudut)
             siirrot =  self.mahdolliset_siirrot(ruudut)
-            #print("mahdolliset siirrot", siirrot)
             paras_siirto = None
             paras_arvo = -10000
             parhaat_siirrot = []
@@ -29,7 +27,6 @@ class Tietokonepelaaja():
                 tmp_ruudut = copy.deepcopy(ruudut)
                 tmp_ruudut[siirto[0]][siirto[1]] = self.merkki
                 uusi_arvo = self.minimax(tmp_ruudut, 0, 1, False)
-                #print(f"siirto: {siirto} - uusi arvo:{uusi_arvo} - paras arvo:{paras_arvo}")
                 parhaat_siirrot.append((siirto, paras_arvo))
                 if uusi_arvo > paras_arvo:
                     paras_arvo = uusi_arvo
@@ -131,7 +128,7 @@ class Tietokonepelaaja():
         loppupisteet = pisteet_0
         if pisteet_x < 0:
             loppupisteet = pisteet_x
-        #print("loppupisteet", loppupisteet)
+      
         return loppupisteet
 
 
@@ -143,12 +140,9 @@ class Tietokonepelaaja():
 
         if syvyys == maks_syvyys or len(siirrot) == 0:
             pisteet = self.pisteyta(ruudut) 
-            #print(f"pisteet: {pisteet} syvyys: {syvyys}")
             return pisteet
 
-    
         if maksimoija:   
-            #print("maximizer")
             paras_arvo = -1000       
             merkki = "0"
             for siirto in siirrot:
@@ -156,18 +150,16 @@ class Tietokonepelaaja():
                 tmp_ruudut[siirto[0]][siirto[1]] = merkki
                 uusi_arvo = self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, False)
                 print(f"paras_arvo:{paras_arvo} uusi arvo:{uusi_arvo}")
-                paras_arvo = max(paras_arvo, uusi_arvo) 
-            #print ("takaisin paras arvo:", paras_arvo)       
+                paras_arvo = max(paras_arvo, uusi_arvo)      
             return paras_arvo
         else:
-            #print("minimizer")
             paras_arvo = 1000
             merkki = "X"
             for siirto in siirrot:
                 tmp_ruudut = copy.deepcopy(ruudut)
                 tmp_ruudut[siirto[0]][siirto[1]] = merkki
                 paras_arvo = min(paras_arvo, self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, True))
-            
+
             print ("takaisin paras arvo:", paras_arvo)    
             return paras_arvo
                    
