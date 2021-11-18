@@ -66,81 +66,100 @@ class Tietokonepelaaja():
         pisteet_0 = 0
         pisteet_x = 0
        
+
+       # Tietokonepelaaja
         merkki = "0"
         for i in range (n):
             for j in range(n):
                 if i + 4 < n and (ruudut[i][j] == merkki and \
                     ruudut[i+1][j] == merkki and \
-                    ruudut[i+2][j]  == merkki and \
-                    ruudut[i+3][j]  == merkki  and \
-                    ruudut[i+4][j] == merkki):
-                    pisteet_0 = 10
+                    ruudut[i+2][j]  == merkki):                    
+                    if ruudut[i+3][j]  == merkki and ruudut[i+4][j] == merkki:
+                        pisteet_x = 10
+                    elif (i-1 >= 0 and ruudut[i-1][j] != -1) and ruudut[i+3][j] == -1:
+                        pisteet_x = 0
+
                 elif j + 4 < n and (ruudut[i][j] == merkki and \
                         ruudut[i][j+1] == merkki and \
-                        ruudut[i][j+2]  == merkki and \
-                        ruudut[i][j+3]  == merkki  and \
-                        ruudut[i][j+4] == merkki):
-                    pisteet_0 = 10
+                        ruudut[i][j+2]  == merkki):
+                    if ruudut[i][j+3]  == merkki and ruudut[i][j+4] == merkki:
+                        pisteet_x = 10
+                    elif (j-1 >= 0 and ruudut[i][j-1] != -1) and ruudut[i][j+3] == -1:
+                        pisteet_x = 0
                 elif i + 4 < n and j + 4 < n and (ruudut[i][j] == merkki and \
                         ruudut[i+1][j+1] == merkki and \
-                        ruudut[i+2][j+2]  == merkki and \
-                        ruudut[i+3][j+3]  == merkki  and \
-                        ruudut[i+4][j+4] == merkki):
-                    pisteet_0 = 10
+                        ruudut[i+2][j+2]  == merkki):
+                    if ruudut[i+3][j+3]  == merkki and ruudut[i+4][j+4] == merkki:
+                        pisteet_x = 10
+                    elif (i-1 >= 0 and j-1 >= 0 and ruudut[i-1][j-1] != -1) and ruudut[i+3][j+3] == -1:
+                        pisteet_x = 0
+
                 elif i + 4 < n and j - 4 >= 0 and (ruudut[i][j] == merkki and \
                         ruudut[i+1][j-1] == merkki and \
-                        ruudut[i+2][j-2]  == merkki and \
-                        ruudut[i+3][j-3]  == merkki  and \
-                        ruudut[i+4][j-4] == merkki):
-                    pisteet_0 = 10
+                        ruudut[i+2][j-2]  == merkki):
+                    if ruudut[i+3][j-3]  == merkki and ruudut[i+4][j-4] == merkki:
+                        pisteet_x = 10
+                    elif (i-1 >= 0 and j+1 < n and ruudut[i-1][j+1] != -1) and ruudut[i+3][j-3] == -1:
+                        pisteet_x = 0
 
-        
+        # vastustaja
         merkki = "X"
         for i in range (n):
             for j in range(n):
-                if i + 4 < n and (ruudut[i][j] == merkki and \
-                    ruudut[i+1][j] == merkki and \
-                    ruudut[i+2][j]  == merkki and \
-                    ruudut[i+3][j]  == merkki  and \
-                    ruudut[i+4][j] == merkki):
-                        pisteet_x = -10
-                   
+                if i + 4 < n and (ruudut[i][j] == merkki and ruudut[i+1][j] == merkki):
+                    if ruudut[i+2][j]  == merkki:                    
+                        if ruudut[i+3][j]  == merkki and ruudut[i+4][j] == merkki:
+                            pisteet_x = -10
+                        elif (i-1 >= 0 and ruudut[i-1][j] != -1) and ruudut[i+3][j] == -1:
+                            pisteet_x = -5
+                    elif (i-1 >= 0 and ruudut[i-1][j] != -1) and ruudut[i+2][j] == -1:
+                        pisteet_x = -2
+
                 elif j + 4 < n and (ruudut[i][j] == merkki and \
                         ruudut[i][j+1] == merkki and \
-                        ruudut[i][j+2]  == merkki and \
-                        ruudut[i][j+3]  == merkki  and \
-                        ruudut[i][j+4] == merkki):
-                    pisteet_x = -10
+                        ruudut[i][j+2]  == merkki):
+                    if ruudut[i][j+3]  == merkki  and   ruudut[i][j+4] == merkki:
+                        pisteet_x = -10
+                    elif (j-1 >= 0 and ruudut[i][j-1] != -1) and ruudut[i][j+3] == -1:
+                        pisteet_x = -5
                 elif i + 4 < n and j + 4 < n and (ruudut[i][j] == merkki and \
                         ruudut[i+1][j+1] == merkki and \
-                        ruudut[i+2][j+2]  == merkki and \
-                        ruudut[i+3][j+3]  == merkki  and \
-                        ruudut[i+4][j+4] == merkki):
-                    pisteet_x = -10
+                        ruudut[i+2][j+2]  == merkki):
+                    if ruudut[i+3][j+3]  == merkki and ruudut[i+4][j+4] == merkki:
+                        pisteet_x = -10
+                    elif (i-1 >= 0 and j-1 >= 0 and ruudut[i-1][j-1] != -1) and ruudut[i+3][j+3] == -1:
+                        pisteet_x = -5
+
                 elif i + 4 < n and j - 4 >= 0 and (ruudut[i][j] == merkki and \
                         ruudut[i+1][j-1] == merkki and \
-                        ruudut[i+2][j-2]  == merkki and \
-                        ruudut[i+3][j-3]  == merkki  and \
-                        ruudut[i+4][j-4] == merkki):
-                    pisteet_x = -10
-        print("pisteetx", pisteet_x)
+                        ruudut[i+2][j-2]  == merkki):
+                    if ruudut[i+3][j-3]  == merkki and ruudut[i+4][j-4] == merkki:
+                        pisteet_x = -10
+                    elif (i-1 >= 0 and j+1 < n and ruudut[i-1][j+1] != -1) and ruudut[i+3][j-3] == -1:
+                        pisteet_x = -5
 
-        loppupisteet = pisteet_0
-        if pisteet_x < 0:
+        loppupisteet = 0
+        if pisteet_x == -10:
             loppupisteet = pisteet_x
-      
+        elif pisteet_0 == 10:
+            loppupisteet = pisteet_0
+        elif pisteet_x == -5:
+            loppupisteet = pisteet_x
+        elif pisteet_x == -2:
+            loppupisteet = pisteet_x
+       
+        
         return loppupisteet
 
 
     def minimax(self,ruudut, syvyys, maks_syvyys, maksimoija):
         siirrot = self.mahdolliset_siirrot(ruudut)
         valipisteet = self.pisteyta(ruudut)
-        if valipisteet != 0:
+        if valipisteet == 10 or valipisteet == -10:
             return valipisteet
 
         if syvyys == maks_syvyys or len(siirrot) == 0:
-            pisteet = self.pisteyta(ruudut) 
-            return pisteet
+            return valipisteet
 
         if maksimoija:   
             paras_arvo = -1000       
@@ -149,7 +168,7 @@ class Tietokonepelaaja():
                 tmp_ruudut = copy.deepcopy(ruudut)
                 tmp_ruudut[siirto[0]][siirto[1]] = merkki
                 uusi_arvo = self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, False)
-                print(f"paras_arvo:{paras_arvo} uusi arvo:{uusi_arvo}")
+                #print(f"paras_arvo:{paras_arvo} uusi arvo:{uusi_arvo}")
                 paras_arvo = max(paras_arvo, uusi_arvo)      
             return paras_arvo
         else:
@@ -160,7 +179,7 @@ class Tietokonepelaaja():
                 tmp_ruudut[siirto[0]][siirto[1]] = merkki
                 paras_arvo = min(paras_arvo, self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, True))
 
-            print ("takaisin paras arvo:", paras_arvo)    
+            #print ("takaisin paras arvo:", paras_arvo)    
             return paras_arvo
                    
 
