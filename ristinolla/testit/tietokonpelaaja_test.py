@@ -53,17 +53,20 @@ class TietokonepelaajaTest(unittest.TestCase):
         arvo = self.pelaaja.pisteyta(self.ruudut)
         self.assertEqual(arvo, -5)
 
+    def test_pisteyta_vino_rivi_pelaaja(self):
+        self.ruudut[0][0] = "X"
+        self.ruudut[1][1] = "X"
+        self.ruudut[2][2] = "X"
+        self.ruudut[3][3] = "X"
+        self.ruudut[4][4] = "X"
+        arvo = self.pelaaja.pisteyta(self.ruudut)
+        self.assertEqual(arvo, -10)
 
-    """
-    def test_aseta_piste(self):
-        self.pelaaja.aseta_piste(1,1)
-        self.assertEqual(self.pelaaja.x, 1)
-        self.assertEqual(self.pelaaja.y, 1)   
-
-
-    def test_siirra(self):
-       pass  
-   
-
-
-    """
+    def test_pisteyta_vino2_rivi_pelaaja(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][9] = "X"
+        self.ruudut[12][8] = "X"
+        self.ruudut[13][7] = "X"
+        self.ruudut[14][6] = "X"
+        arvo = self.pelaaja.pisteyta(self.ruudut)
+        self.assertEqual(arvo, -10)
