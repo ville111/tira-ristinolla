@@ -91,7 +91,6 @@ class Ristinolla:
                             (pysty_positio, korkeus-2),1)
                 merkki = self.ruudukko.anna_merkki(i,j)
                 if merkki:
-                    #print("merkki", merkki, "vaaka", vaaka_positio, "pysty", pysty_positio)
                     self.ikkuna.blit(self.fontti.render(merkki, True, (255, 0, 0)),
                                                         (vaaka_positio+4, pysty_positio+2))
 
