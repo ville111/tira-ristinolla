@@ -8,8 +8,8 @@ Testausraportti (aloitettu)\
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Testausdokumentti.pdf
 
 <hr />
-Viikko 2 (Päivitetty 12.11.2021)\
-Viikkoraportti 2\
+Viikko 2 (Päivitetty 12.11.2021)<br />
+Viikkoraportti 2<br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/viikkoraportti%202.pdf
 
 <hr />
