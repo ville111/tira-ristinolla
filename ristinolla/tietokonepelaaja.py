@@ -63,7 +63,6 @@ class Tietokonepelaaja():
 
     def pisteyta(self, ruudut):
         n = len(ruudut)
-        loppupisteet = 0
         pisteet_x = 0
 
        # Tietokonepelaaja
@@ -138,12 +137,9 @@ class Tietokonepelaaja():
                         ruudut[i+3][j-3] == -1:
                         pisteet_x = -5
 
-        loppupisteet = 0
-
         if pisteet_x == -5:
-            loppupisteet = pisteet_x
-
-        return loppupisteet
+            return pisteet_x
+        return 0
 
 
     def minimax(self,ruudut, syvyys, maks_syvyys, maksimoija):
