@@ -2,6 +2,9 @@ import copy
 
 
 class Tietokonepelaaja():
+    """ Tämä luokka toteuttaa pelin tietokonepelaajan käyttäen minimax-algoritmia.
+    """
+
     def __init__(self, merkki:str, nimi:str, ruudukko):
         self.merkki = merkki
         self.nimi = nimi
@@ -31,7 +34,7 @@ class Tietokonepelaaja():
                 if uusi_arvo > paras_arvo:
                     paras_arvo = uusi_arvo
                     paras_siirto = siirto
-                   
+
             x, y = paras_siirto
             self.x = -1
             self.y = -1
@@ -62,7 +65,7 @@ class Tietokonepelaaja():
         n = len(ruudut)
         loppupisteet = 0
         pisteet_x = 0
-       
+
        # Tietokonepelaaja
         merkki = "0"
         for i in range (n):
@@ -85,7 +88,8 @@ class Tietokonepelaaja():
                         ruudut[i+2][j+2]  == merkki):
                     if ruudut[i+3][j+3]  == merkki and ruudut[i+4][j+4] == merkki:
                         pisteet_x = 10
-                    elif (i-1 >= 0 and j-1 >= 0 and ruudut[i-1][j-1] == -1) and ruudut[i+3][j+3] == -1:
+                    elif (i-1 >= 0 and j-1 >= 0 and \
+                        ruudut[i-1][j-1] == -1) and ruudut[i+3][j+3] == -1:
                         pisteet_x = 0
 
                 elif i + 4 < n and j - 4 >= 0 and (ruudut[i][j] == merkki and \
@@ -93,14 +97,15 @@ class Tietokonepelaaja():
                         ruudut[i+2][j-2]  == merkki):
                     if ruudut[i+3][j-3]  == merkki and ruudut[i+4][j-4] == merkki:
                         pisteet_x = 10
-                    elif (i-1 >= 0 and j+1 < n and ruudut[i-1][j+1] == -1) and ruudut[i+3][j-3] == -1:
+                    elif (i-1 >= 0 and j+1 < n and ruudut[i-1][j+1] == -1) and \
+                        ruudut[i+3][j-3] == -1:
                         pisteet_x = 0
 
         # vastustaja
         merkki = "X"
         for i in range (n):
             for j in range(n):
-               
+
                 if i + 4 < n and (ruudut[i][j] == merkki and \
                         ruudut[i+1][j] == merkki and \
                         ruudut[i+2][j]  == merkki):
@@ -120,7 +125,8 @@ class Tietokonepelaaja():
                         ruudut[i+2][j+2]  == merkki):
                     if ruudut[i+3][j+3]  == merkki and ruudut[i+4][j+4] == merkki:
                         return -10
-                    elif (i-1 >= 0 and j-1 >= 0 and ruudut[i-1][j-1] == -1) and ruudut[i+3][j+3] == -1:
+                    elif (i-1 >= 0 and j-1 >= 0 and ruudut[i-1][j-1] == -1) and \
+                        ruudut[i+3][j+3] == -1:
                         pisteet_x = -5
 
                 elif i + 4 < n and j - 4 >= 0 and (ruudut[i][j] == merkki and \
@@ -128,14 +134,15 @@ class Tietokonepelaaja():
                         ruudut[i+2][j-2]  == merkki):
                     if ruudut[i+3][j-3]  == merkki and ruudut[i+4][j-4] == merkki:
                         return -10
-                    elif (i-1 >= 0 and j+1 < n and ruudut[i-1][j+1] == -1) and ruudut[i+3][j-3] == -1:
+                    elif (i-1 >= 0 and j+1 < n and ruudut[i-1][j+1] == -1) and\
+                        ruudut[i+3][j-3] == -1:
                         pisteet_x = -5
 
         loppupisteet = 0
-       
+
         if pisteet_x == -5:
             loppupisteet = pisteet_x
-      
+
         return loppupisteet
 
 
@@ -151,13 +158,13 @@ class Tietokonepelaaja():
         if syvyys == maks_syvyys or len(siirrot) == 0:
             return pisteet
 
-        if maksimoija:   
-            paras_arvo = -1000       
+        if maksimoija:
+            paras_arvo = -1000
             merkki = "0"
             for siirto in siirrot:
                 tmp_ruudut = copy.deepcopy(ruudut)
                 tmp_ruudut[siirto[0]][siirto[1]] = merkki
-                paras_arvo = max(paras_arvo, self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, False))      
+                paras_arvo = max(paras_arvo, self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, False))
             return paras_arvo
         else:
             paras_arvo = 1000
@@ -167,5 +174,3 @@ class Tietokonepelaaja():
                 tmp_ruudut[siirto[0]][siirto[1]] = merkki
                 paras_arvo = min(paras_arvo, self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, True))
             return paras_arvo
-                   
-
