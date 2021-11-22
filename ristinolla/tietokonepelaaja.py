@@ -32,12 +32,18 @@ class Tietokonepelaaja():
             parhaat_siirrot = []
 
             aika_4 = time.perf_counter()
+            if len(siirrot) == 1:
+                x, y = siirrot[0]
+                self.x = -1
+                self.y = -1
+                return self.merkki, x, y
+
             for siirto in siirrot:
                 tmp_ruudut = copy.deepcopy(ruudut)
                 tmp_ruudut[siirto[0]][siirto[1]] = self.merkki
 
                 aika_minimax_1 = time.perf_counter()
-                uusi_arvo = self.minimax(tmp_ruudut, 0, 5, False)
+                uusi_arvo = self.alfabeta(tmp_ruudut, 0, 5, False,-1000, 1000)
                 aika_minimax_2 = time.perf_counter()
                 parhaat_siirrot.append((siirto, paras_arvo))
                 if uusi_arvo > paras_arvo:
@@ -299,7 +305,7 @@ class Tietokonepelaaja():
             return pisteet_x
         return 0
 
-
+    """
     def minimax(self,ruudut, syvyys, maks_syvyys, maksimoija):
         siirrot = self.mahdolliset_siirrot(ruudut)
         pisteet = self.pisteyta(ruudut)
@@ -327,4 +333,42 @@ class Tietokonepelaaja():
                 tmp_ruudut = copy.deepcopy(ruudut)
                 tmp_ruudut[siirto[0]][siirto[1]] = merkki
                 paras_arvo = min(paras_arvo, self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, True))
+            return paras_arvo
+        """
+
+    def alfabeta(self,ruudut, syvyys, maks_syvyys, maksimoija, alfa, beta):
+        siirrot = self.mahdolliset_siirrot(ruudut)
+        pisteet = self.pisteyta(ruudut)
+
+        if pisteet == 10 or pisteet == -10 :
+            return pisteet #+ syvyys
+        #elif pisteet == -10:
+        #    return pisteet - syvyys
+
+        if syvyys == maks_syvyys or len(siirrot) == 0:
+            return pisteet
+
+        if maksimoija:
+            paras_arvo = -1000
+            merkki = "0"
+            for siirto in siirrot:
+                tmp_ruudut = copy.deepcopy(ruudut)
+                tmp_ruudut[siirto[0]][siirto[1]] = merkki
+                paras_arvo = max(paras_arvo, 
+                                self.alfabeta(tmp_ruudut, syvyys+1, maks_syvyys, False, alfa, beta))
+                if paras_arvo >= beta:
+                    break
+                beta = max(beta, paras_arvo)
+            return paras_arvo
+        else:
+            paras_arvo = 1000
+            merkki = "X"
+            for siirto in siirrot:
+                tmp_ruudut = copy.deepcopy(ruudut)
+                tmp_ruudut[siirto[0]][siirto[1]] = merkki
+                paras_arvo = min(paras_arvo, 
+                            self.alfabeta(tmp_ruudut, syvyys+1, maks_syvyys, True, alfa, beta))
+                if paras_arvo <= alfa:
+                    break
+                alfa = min(alfa, paras_arvo)
             return paras_arvo
