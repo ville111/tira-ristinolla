@@ -73,20 +73,20 @@ class Tietokonepelaaja():
                         ruudut[i+2][j] == ruudut[i+3][j] ):
                         if ruudut[i+4][j] == -1:
                             vapaat.append((i+4,j))
-                        elif i-1 >=0 and ruudut[i-1][j] == -1:
+                        if i-1 >=0 and ruudut[i-1][j] == -1:
                             vapaat.append((i-1,j))
                     elif (i+3<n) and (\
                         ruudut[i][j] == ruudut[i+1][j] and \
                         ruudut[i+1][j] == ruudut[i+2][j] ):
                         if ruudut[i+3][j] == -1:
                             vapaat.append((i+3,j))
-                        elif i-1 >=0 and ruudut[i-1][j] == -1:
+                        if i-1 >=0 and ruudut[i-1][j] == -1:
                             vapaat.append((i-1,j))
                     elif (i+2<n) and (\
                         ruudut[i][j] == ruudut[i+1][j] ):
                         if ruudut[i+2][j] == -1:
                             vapaat.append((i+2,j))
-                        elif i-1 >=0 and ruudut[i-1][j] == -1:
+                        if i-1 >=0 and ruudut[i-1][j] == -1:
                             vapaat.append((i-1,j))
                    
                     if (j+4<n) and (\
@@ -95,20 +95,20 @@ class Tietokonepelaaja():
                         ruudut[i][j+2] == ruudut[i][j+3] ):
                         if ruudut[i][j+4] == -1:
                             vapaat.append((i,j+4))
-                        elif j-1 >=0 and ruudut[i][j-1] == -1:
+                        if j-1 >=0 and ruudut[i][j-1] == -1:
                             vapaat.append((i,j-1))
                     elif (j+3<n) and (\
                         ruudut[i][j] == ruudut[i][j+1] and \
                         ruudut[i][j+1] == ruudut[i][j+2] ):
                         if ruudut[i][j+3] == -1:
                             vapaat.append((i,j+3))
-                        elif j-1 >=0 and ruudut[i][j-1] == -1:
+                        if j-1 >=0 and ruudut[i][j-1] == -1:
                             vapaat.append((i,j-1))
                     elif (j+2<n) and (\
                         ruudut[i][j] == ruudut[i][j+1] ):
                         if ruudut[i][j+2] == -1:
                             vapaat.append((i,j+2))
-                        elif j-1 >=0 and ruudut[i][j-1] == -1:
+                        if j-1 >=0 and ruudut[i][j-1] == -1:
                             vapaat.append((i,j-1))
 
                     if i+4<n and j+4<n and (\
@@ -117,14 +117,14 @@ class Tietokonepelaaja():
                         ruudut[i+2][j+2] == ruudut[i+3][j+3]):
                         if ruudut[i+4][j+4] == -1:
                             vapaat.append((i+4,j+4))
-                        elif i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
+                        if i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
                             vapaat.append((i-1,j-1))
                     elif i+3<n and j+3<n and (\
                         ruudut[i][j] == ruudut[i+1][j+1] and \
                         ruudut[i+1][j+1] == ruudut[i+2][j+2]):
                         if ruudut[i+3][j+3] == -1:
                             vapaat.append((i+3,j+3))
-                        elif i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
+                        if i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
                             vapaat.append((i-1,j-1))
 
                     if i+4<n and j-4>=0 and (\
@@ -133,14 +133,14 @@ class Tietokonepelaaja():
                         ruudut[i+2][j-2] == ruudut[i+3][j-3]):
                         if ruudut[i+4][j-4] == -1:
                             vapaat.append((i+4,j-4))
-                        elif i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
+                        if i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
                             vapaat.append((i-1,j+1))
                     elif i+3<n and j-3>=0 and (\
                         ruudut[i][j] == ruudut[i+1][j-1] and \
                         ruudut[i+1][j-1] == ruudut[i+2][j-2]):
                         if ruudut[i+3][j-3] == -1:
                             vapaat.append((i+3,j-3))
-                        elif i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
+                        if i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
                             vapaat.append((i-1,j+1))
                    
                     #print("vapaat", vapaat)
