@@ -32,8 +32,8 @@ class Ristinolla:
                
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    #if isinstance(pelaaja,Pelaaja):
-                        x, y = self.tunnista_ruutu(event.pos[0], event.pos[1])
+                    x, y = self.tunnista_ruutu(event.pos[0], event.pos[1])
+                    if not self.ruudukko.anna_merkki(x,y):
                         pelaaja.aseta_piste(x,y)
                 if event.type == pygame.QUIT:
                     exit()
