@@ -108,7 +108,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         self.ruudut[11][10] = "X"
         self.ruudut[12][10] = "X"
         self.ruudut[13][10] = "X"
-        vaihtoehdot = [(9,10), (14,10)]
+        vaihtoehdot = [(14,10),(9,10)]
         self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
     
     def test_mahdolliset_ruudut_pysty(self):
@@ -116,7 +116,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         self.ruudut[10][11] = "X"
         self.ruudut[10][12] = "X"
         self.ruudut[10][13] = "X"
-        vaihtoehdot = [(10,9), (10,14)]
+        vaihtoehdot = [(10,14),(10,9)]
         self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
     
     def test_mahdolliset_ruudut_vino(self):
@@ -135,17 +135,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         vaihtoehdot = [(14,6),(9,11)]
         self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
 
-    def test_mahdolliset_ruudut_vino_kolmio(self):
-        self.ruudut[5][11] = "X"
-        self.ruudut[5][12] = "X"
-        self.ruudut[5][13] = "X"
 
-        self.ruudut[10][10] = "X"
-        self.ruudut[11][11] = "X"
-        self.ruudut[12][12] = "X"
-        self.ruudut[13][13] = "X"
-        vaihtoehdot = [(14,14),(9,9)]
-        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
 
 
 
