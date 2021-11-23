@@ -98,9 +98,53 @@ class TietokonepelaajaTest(unittest.TestCase):
         self.assertEqual(self.pelaaja.siirra(), ("0", 4,0))
 
 
-    def test_mahdolliset_ruudut(self):
+    def test_mahdolliset_ruudut_1(self):
         self.ruudut[10][10] = "X"
-        vaihtoehdot = [(9,9), (9,10), (9,11), (10,9), (10,11), (11,9), (11,10), (11,11)]
+        vaihtoehdot = [(11,10)]
+        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
+    
+    def test_mahdolliset_ruudut_vaaka(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][10] = "X"
+        self.ruudut[12][10] = "X"
+        self.ruudut[13][10] = "X"
+        vaihtoehdot = [(9,10), (14,10)]
+        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
+    
+    def test_mahdolliset_ruudut_pysty(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[10][11] = "X"
+        self.ruudut[10][12] = "X"
+        self.ruudut[10][13] = "X"
+        vaihtoehdot = [(10,9), (10,14)]
+        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
+    
+    def test_mahdolliset_ruudut_vino(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][11] = "X"
+        self.ruudut[12][12] = "X"
+        self.ruudut[13][13] = "X"
+        vaihtoehdot = [(14,14),(9,9)]
+        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
+    
+    def test_mahdolliset_ruudut_vino(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][9] = "X"
+        self.ruudut[12][8] = "X"
+        self.ruudut[13][7] = "X"
+        vaihtoehdot = [(14,6),(9,11)]
+        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
+
+    def test_mahdolliset_ruudut_vino_kolmio(self):
+        self.ruudut[5][11] = "X"
+        self.ruudut[5][12] = "X"
+        self.ruudut[5][13] = "X"
+
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][11] = "X"
+        self.ruudut[12][12] = "X"
+        self.ruudut[13][13] = "X"
+        vaihtoehdot = [(14,14),(9,9)]
         self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
 
 

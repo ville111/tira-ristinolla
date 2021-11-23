@@ -83,11 +83,12 @@ class Tietokonepelaaja():
                         ruudut[i+3][j] == ruudut[i+4][j] ):
                         if ruudut[i+5][j] == -1:
                             vapaat.append((i+5,j))
+                            neloset += 1
                         if i-1 >=0 and ruudut[i-1][j] == -1:
                             vapaat.append((i-1,j))
-                        neloset += 1
+                            neloset += 1
 
-                    elif (i+4<n)  and (\
+                    elif (i+4<n)  and neloset == 0 and (\
                         ruudut[i][j] == ruudut[i+1][j] and \
                         ruudut[i+1][j] == ruudut[i+2][j] and \
                         ruudut[i+2][j] == ruudut[i+3][j] ):
@@ -95,15 +96,16 @@ class Tietokonepelaaja():
                             vapaat.append((i+4,j))
                         if i-1 >=0 and ruudut[i-1][j] == -1:
                             vapaat.append((i-1,j))
-                        kolmoset += 1
-                    elif (i+3<n) and kolmoset == 0 and neloset == 0 and (\
+                        if ruudut[i+4][j] == -1 and i-1 >=0 and ruudut[i-1][j] == -1:
+                            kolmoset += 1
+                    elif (i+3<n) and neloset == 0 and kolmoset == 1 and (\
                         ruudut[i][j] == ruudut[i+1][j] and \
                         ruudut[i+1][j] == ruudut[i+2][j] ): 
                         if ruudut[i+3][j] == -1:
                             vapaat.append((i+3,j))
                         if i-1 >=0 and ruudut[i-1][j] == -1:
                             vapaat.append((i-1,j))
-                    elif (i+2<n) and neloset == 0 and kolmoset == 0 and  (\
+                    elif (i+2<n) and neloset == 0 and kolmoset == 1 and   (\
                         ruudut[i][j] == ruudut[i+1][j] ):
                         if ruudut[i+2][j] == -1:
                             vapaat.append((i+2,j))
@@ -118,10 +120,11 @@ class Tietokonepelaaja():
                         ruudut[i][j+3] == ruudut[i][j+4] ):
                         if ruudut[i][j+5] == -1:
                             vapaat.append((i,j+5))
+                            neloset += 1
                         if j-1 >=0 and ruudut[i][j-1] == -1:
                             vapaat.append((i,j-1))
-                        neloset += 1
-                    elif (j+4<n) and (\
+                            neloset += 1
+                    elif (j+4<n) and neloset == 0 and (\
                         ruudut[i][j] == ruudut[i][j+1] and \
                         ruudut[i][j+1] == ruudut[i][j+2] and \
                         ruudut[i][j+2] == ruudut[i][j+3] ):
@@ -129,8 +132,9 @@ class Tietokonepelaaja():
                             vapaat.append((i,j+4))
                         if j-1 >=0 and ruudut[i][j-1] == -1:
                             vapaat.append((i,j-1))
-                        kolmoset += 1
-                    elif (j+3<n) and  kolmoset == 0 and neloset == 0 and (\
+                        if ruudut[i][j+4] == -1 and j-1 >=0 and ruudut[i][j-1] == -1:
+                            kolmoset += 1
+                    elif (j+3<n) and  neloset == 0 and kolmoset == 0 and  (\
                         ruudut[i][j] == ruudut[i][j+1] and \
                         ruudut[i][j+1] == ruudut[i][j+2] ):
                         if ruudut[i][j+3] == -1:
@@ -138,7 +142,7 @@ class Tietokonepelaaja():
                         if j-1 >=0 and ruudut[i][j-1] == -1:
                             vapaat.append((i,j-1))
                         kolmoset += 1
-                    elif (j+2<n) and neloset == 0 and kolmoset == 0 and (\
+                    elif (j+2<n) and  neloset == 0 and kolmoset == 0 and    (\
                         ruudut[i][j] == ruudut[i][j+1] ):
                         if ruudut[i][j+2] == -1:
                             vapaat.append((i,j+2))
@@ -152,10 +156,11 @@ class Tietokonepelaaja():
                         ruudut[i+3][j+3] == ruudut[i+4][j+4]):
                         if ruudut[i+5][j+5] == -1:
                             vapaat.append((i+5,j+5))
-                        if i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
+                            neloset += 1
+                        if i > 0 and j > 0 and ruudut[i-1][j-1] == -1:
                             vapaat.append((i-1,j-1))
-                        neloset += 1
-                    elif i+4<n and j+4<n and (\
+                            neloset += 1
+                    elif i+4<n and j+4<n and neloset == 0 and  (\
                         ruudut[i][j] == ruudut[i+1][j+1] and \
                         ruudut[i+1][j+1] == ruudut[i+2][j+2] and \
                         ruudut[i+2][j+2] == ruudut[i+3][j+3]):
@@ -163,15 +168,16 @@ class Tietokonepelaaja():
                             vapaat.append((i+4,j+4))
                         if i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
                             vapaat.append((i-1,j-1))
-                        kolmoset += 1
-                    elif i+3<n and j+3<n and  kolmoset == 0  and neloset == 0 and (\
+                        if ruudut[i+4][j+4] == -1 and i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
+                            kolmoset += 1
+                    elif i+3<n and j+3<n and neloset == 0 and kolmoset == 0 and (\
                         ruudut[i][j] == ruudut[i+1][j+1] and \
                         ruudut[i+1][j+1] == ruudut[i+2][j+2]):
                         if ruudut[i+3][j+3] == -1:
                             vapaat.append((i+3,j+3))
                         if i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
                             vapaat.append((i-1,j-1))
-                    elif i+2<n and j+2<n and  kolmoset == 0  and neloset == 0 and (\
+                    elif i+2<n and j+2<n and neloset == 0 and  kolmoset == 0 and   (\
                         ruudut[i][j] == ruudut[i+1][j+1] ):
                         if ruudut[i+2][j+2] == -1:
                             vapaat.append((i+2,j+2))
@@ -185,10 +191,11 @@ class Tietokonepelaaja():
                         ruudut[i+3][j-3] == ruudut[i+4][j-4]):
                         if ruudut[i+5][j-5] == -1:
                             vapaat.append((i+5,j-5))
+                            neloset += 1
                         if i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
                             vapaat.append((i-1,j+1))
-                        neloset += 1
-                    elif i+4<n and j-4>=0 and (\
+                            neloset += 1
+                    elif i+4<n and j-4>=0 and neloset == 0 and (\
                         ruudut[i][j] == ruudut[i+1][j-1] and \
                         ruudut[i+1][j-1] == ruudut[i+2][j-2] and \
                         ruudut[i+2][j-2] == ruudut[i+3][j-3]):
@@ -196,15 +203,16 @@ class Tietokonepelaaja():
                             vapaat.append((i+4,j-4))
                         if i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
                             vapaat.append((i-1,j+1))
-                        kolmoset += 1
-                    elif i+3<n and j-3>=0 and  kolmoset == 0 and neloset == 0 and (\
+                        if ruudut[i+4][j-4] == -1 and i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
+                            kolmoset += 1
+                    elif i+3<n and j-3>=0 and  neloset == 0 and kolmoset == 0 and (\
                         ruudut[i][j] == ruudut[i+1][j-1] and \
                         ruudut[i+1][j-1] == ruudut[i+2][j-2]):
                         if ruudut[i+3][j-3] == -1:
                             vapaat.append((i+3,j-3))
                         if i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
                             vapaat.append((i-1,j+1))
-                    elif i+2<n and j-2>=0 and  kolmoset == 0 and neloset == 0 and (\
+                    elif i+2<n and j-2>=0 and  neloset == 0 and kolmoset == 0 and  (\
                         ruudut[i][j] == ruudut[i+1][j-1]):
                         if ruudut[i+2][j-2] == -1:
                             vapaat.append((i+2,j-2))
@@ -221,7 +229,6 @@ class Tietokonepelaaja():
                     elif ruudut[i][j] != -1 and i+1 < n and ruudut[i+1][j] == -1:
                         vapaat.append((i+1,j))
 
-        #print(f"kolmoset: {kolmoset} neloset: {neloset}")
         return list(set(vapaat))
 
 
@@ -340,10 +347,10 @@ class Tietokonepelaaja():
         siirrot = self.mahdolliset_siirrot(ruudut)
         pisteet = self.pisteyta(ruudut)
 
-        if pisteet == 10 or pisteet == -10 :
-            return pisteet #+ syvyys
-        #elif pisteet == -10:
-        #    return pisteet - syvyys
+        if pisteet == 10:
+            return pisteet + syvyys
+        elif pisteet == -10:
+            return pisteet - syvyys
 
         if syvyys == maks_syvyys or len(siirrot) == 0:
             return pisteet
@@ -358,7 +365,7 @@ class Tietokonepelaaja():
                                 self.alfabeta(tmp_ruudut, syvyys+1, maks_syvyys, False, alfa, beta))
                 if paras_arvo >= beta:
                     break
-                beta = max(beta, paras_arvo)
+                alfa = max(alfa, paras_arvo)
             return paras_arvo
         else:
             paras_arvo = 1000
@@ -370,5 +377,5 @@ class Tietokonepelaaja():
                             self.alfabeta(tmp_ruudut, syvyys+1, maks_syvyys, True, alfa, beta))
                 if paras_arvo <= alfa:
                     break
-                alfa = min(alfa, paras_arvo)
+                beta = min(beta, paras_arvo)
             return paras_arvo
