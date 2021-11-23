@@ -27,17 +27,28 @@ class Ristinolla:
 
     def run(self):
         self.ikkuna.fill((100, 100, 100))
+
         while True:
             pelaaja = self.peli.pelaaja()
-               
+
             for event in pygame.event.get():
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     x, y = self.tunnista_ruutu(event.pos[0], event.pos[1])
-                    if not self.ruudukko.anna_merkki(x,y):
+                    if isinstance(pelaaja, Pelaaja) and\
+                        x >= 0 and x< 20 and y>=0 and y<20 and \
+                        not self.ruudukko.anna_merkki(x,y):
                         pelaaja.aseta_piste(x,y)
+                    elif self.nappi_painettu(event.pos[0], event.pos[1]):
+                        self.uusi_peli()
+                        print("uusi peli")
+
                 if event.type == pygame.QUIT:
                     exit()
+
             if self.peli_jatkuu:
+                if isinstance(pelaaja, Tietokonepelaaja):
+                    pelaaja.aseta_piste(1,1)
                 siirto = pelaaja.siirra()
                 if siirto:
                     self.ikkuna.fill((100, 100, 100))
@@ -51,6 +62,14 @@ class Ristinolla:
                         self.tilaviesti(f"Pelivuorossa: {self.peli.pelaaja().nimi}")
             self.piirra_ruudukko()
             self.clock.tick(60)
+
+
+    def uusi_peli(self):
+        self.peli.uusi_peli()
+        self.ruudukko.uusi_peli()
+        if not self.peli_jatkuu:
+            self.peli_jatkuu = True
+        self.piirra_ruudukko()
 
 
     def tunnista_ruutu(self, x, y):
@@ -69,6 +88,18 @@ class Ristinolla:
 
     def tilaviesti(self, viesti:str):
         self.ikkuna.blit(self.fontti.render(viesti, True, (0, 0, 0)),(4, self.ikkunan_korkeus+4))
+    
+    def nappi_painettu(self, a, b):
+        x, y, w, h = 280, self.ikkunan_korkeus+1 , 195 , 25
+        if a >= x and a < x+200 and b >=y and b < y+25:
+            return True
+        return False
+
+    def nappi(self):
+        viesti = "Uusi peli"
+        napin_fontti = pygame.font.SysFont("Arial", 18)
+        pygame.draw.rect(self.ikkuna, (255,0,0), (280, self.ikkunan_korkeus+1 , 195 , 25))
+        self.ikkuna.blit(napin_fontti.render(viesti, True, (0, 0, 0)),(340, self.ikkunan_korkeus+5))
 
 
     def piirra_ruudukko(self):
@@ -91,9 +122,13 @@ class Ristinolla:
                             (pysty_positio, korkeus-2),1)
                 merkki = self.ruudukko.anna_merkki(i,j)
                 if merkki:
-                    self.ikkuna.blit(self.fontti.render(merkki, True, (255, 0, 0)),
+                    vari = (255,0,0)
+                    viim_merkki, viim_x, viim_y = self.peli.viimeisin_siirto
+                    if viim_x == i and viim_y == j:
+                        vari = (255,255,255)
+                    self.ikkuna.blit(self.fontti.render(merkki, True, vari),
                                                         (vaaka_positio+4, pysty_positio+2))
-
+        self.nappi()
         pygame.display.flip()
 
 

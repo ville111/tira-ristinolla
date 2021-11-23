@@ -8,6 +8,7 @@ class Peli:
         self.vuoro = 0
         self.aloitusvuoro = 0
         self.ruudukko = ruudukko
+        self.viimeisin_siirto = None
 
 
     def uusi_peli(self):
@@ -28,6 +29,7 @@ class Peli:
 
     def siirra(self, merkki:str, x:int, y:int):
         self.ruudukko.aseta_merkki(merkki, x, y)
+        self.viimeisin_siirto = (merkki, x, y)
 
 
     def vaihda_vuoro(self):

@@ -10,6 +10,10 @@ class Ruudukko:
         self.ruudut = [[-1]* n for i in range(n)]
 
 
+    def uusi_peli(self):
+        self.ruudut = [[-1]* self.n for i in range(self.n)]
+
+
     def aseta_merkki(self, merkki, x, y):
         if self.ruudut[x][y] == -1:
             self.ruudut[x][y] = merkki
