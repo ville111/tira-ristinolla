@@ -103,38 +103,93 @@ class TietokonepelaajaTest(unittest.TestCase):
         vaihtoehdot = [(11,10)]
         self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
     
-    def test_mahdolliset_ruudut_vaaka(self):
+    def test_neljan_rivit_vaaka(self):
         self.ruudut[10][10] = "X"
         self.ruudut[11][10] = "X"
         self.ruudut[12][10] = "X"
         self.ruudut[13][10] = "X"
         vaihtoehdot = [(14,10),(9,10)]
-        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
+        self.assertEqual(self.pelaaja.neljan_rivit(self.ruudut,10,10,20), vaihtoehdot)
     
-    def test_mahdolliset_ruudut_pysty(self):
+    def test_neljan_rivit_pysty(self):
         self.ruudut[10][10] = "X"
         self.ruudut[10][11] = "X"
         self.ruudut[10][12] = "X"
         self.ruudut[10][13] = "X"
         vaihtoehdot = [(10,14),(10,9)]
-        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
+        self.assertEqual(self.pelaaja.neljan_rivit(self.ruudut,10,10,20), vaihtoehdot)
     
-    def test_mahdolliset_ruudut_vino(self):
+    def test_neljan_rivit_vino(self):
         self.ruudut[10][10] = "X"
         self.ruudut[11][11] = "X"
         self.ruudut[12][12] = "X"
         self.ruudut[13][13] = "X"
         vaihtoehdot = [(14,14),(9,9)]
-        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
+        self.assertEqual(self.pelaaja.neljan_rivit(self.ruudut,10,10,20), vaihtoehdot)
     
-    def test_mahdolliset_ruudut_vino(self):
+    def test_neljan_rivit_vino2(self):
         self.ruudut[10][10] = "X"
         self.ruudut[11][9] = "X"
         self.ruudut[12][8] = "X"
         self.ruudut[13][7] = "X"
         vaihtoehdot = [(14,6),(9,11)]
-        self.assertEqual(self.pelaaja.mahdolliset_siirrot(self.ruudut), vaihtoehdot)
+        self.assertEqual(self.pelaaja.neljan_rivit(self.ruudut,10,10,20), vaihtoehdot)
 
+
+    def test_kolmen_rivit_vaaka(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][10] = "X"
+        self.ruudut[12][10] = "X"
+
+        vaihtoehdot = [(13,10),(9,10)]
+        self.assertEqual(self.pelaaja.kolmen_rivit(self.ruudut,10,10,20), vaihtoehdot)
+    
+    def test_kolmen_rivit_pysty(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[10][11] = "X"
+        self.ruudut[10][12] = "X"
+        vaihtoehdot = [(10,13),(10,9)]
+        self.assertEqual(self.pelaaja.kolmen_rivit(self.ruudut,10,10,20), vaihtoehdot)
+    
+    def test_kolmen_rivit_vino(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][11] = "X"
+        self.ruudut[12][12] = "X"
+        vaihtoehdot = [(13,13),(9,9)]
+        self.assertEqual(self.pelaaja.kolmen_rivit(self.ruudut,10,10,20), vaihtoehdot)
+    
+    def test_kolmen_rivit_vino2(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][9] = "X"
+        self.ruudut[12][8] = "X"
+        vaihtoehdot = [(13,7),(9,11)]
+        self.assertEqual(self.pelaaja.kolmen_rivit(self.ruudut,10,10,20), vaihtoehdot)
+
+
+    def test_kahden_rivit_vaaka(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][10] = "X"
+
+        vaihtoehdot = [(12,10),(9,10)]
+        self.assertEqual(self.pelaaja.kahden_rivit(self.ruudut,10,10,20), vaihtoehdot)
+    
+    def test_kahden_rivit_pysty(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[10][11] = "X"
+        vaihtoehdot = [(10,12),(10,9)]
+        self.assertEqual(self.pelaaja.kahden_rivit(self.ruudut,10,10,20), vaihtoehdot)
+    
+    def test_kahden_rivit_vino(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][11] = "X"
+        vaihtoehdot = [(12,12),(9,9)]
+        self.assertEqual(self.pelaaja.kahden_rivit(self.ruudut,10,10,20), vaihtoehdot)
+    
+    def test_kahden_rivit_vino2(self):
+        self.ruudut[10][10] = "X"
+        self.ruudut[11][9] = "X"
+        vaihtoehdot = [(12,8),(9,11)]
+        self.assertEqual(self.pelaaja.kahden_rivit(self.ruudut,10,10,20), vaihtoehdot)
 
 
 

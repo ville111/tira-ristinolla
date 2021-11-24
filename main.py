@@ -123,9 +123,14 @@ class Ristinolla:
                 merkki = self.ruudukko.anna_merkki(i,j)
                 if merkki:
                     vari = (255,0,0)
+                    if merkki == "X":
+                        vari = (255,255,255)
                     viim_merkki, viim_x, viim_y = self.peli.viimeisin_siirto
                     if viim_x == i and viim_y == j:
-                        vari = (255,255,255)
+                        if merkki == "X":
+                            vari = (150,150,150)
+                        else:
+                            vari = (150,0,0)
                     self.ikkuna.blit(self.fontti.render(merkki, True, vari),
                                                         (vaaka_positio+4, pysty_positio+2))
         self.nappi()
