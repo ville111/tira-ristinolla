@@ -193,6 +193,7 @@ class Tietokonepelaaja():
 
         return vapaat
 
+
     def kahden_rivit(self, ruudut, i, j, n): 
         vapaat = []
  
@@ -293,7 +294,6 @@ class Tietokonepelaaja():
                     elif (i-1 >= 0 and j-1 >= 0 and ruudut[i-1][j-1] == -1) and \
                         ruudut[i+3][j+3] == -1:
                         pisteet_x = -5
-
                 elif i + 4 < n and j - 4 >= 0 and (ruudut[i][j] == merkki and \
                         ruudut[i+1][j-1] == merkki and \
                         ruudut[i+2][j-2]  == merkki):
@@ -307,36 +307,6 @@ class Tietokonepelaaja():
             return pisteet_x
         return 0
 
-    """
-    def minimax(self,ruudut, syvyys, maks_syvyys, maksimoija):
-        siirrot = self.mahdolliset_siirrot(ruudut)
-        pisteet = self.pisteyta(ruudut)
-
-        if pisteet == 10:
-            return pisteet + syvyys
-        elif pisteet == -10:
-            return pisteet - syvyys
-
-        if syvyys == maks_syvyys or len(siirrot) == 0:
-            return pisteet
-
-        if maksimoija:
-            paras_arvo = -1000
-            merkki = "0"
-            for siirto in siirrot:
-                tmp_ruudut = copy.deepcopy(ruudut)
-                tmp_ruudut[siirto[0]][siirto[1]] = merkki
-                paras_arvo = max(paras_arvo, self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, False))
-            return paras_arvo
-        else:
-            paras_arvo = 1000
-            merkki = "X"
-            for siirto in siirrot:
-                tmp_ruudut = copy.deepcopy(ruudut)
-                tmp_ruudut[siirto[0]][siirto[1]] = merkki
-                paras_arvo = min(paras_arvo, self.minimax(tmp_ruudut, syvyys+1, maks_syvyys, True))
-            return paras_arvo
-        """
 
     def alfabeta(self,ruudut, syvyys, maks_syvyys, maksimoija, alfa, beta):
         siirrot = self.mahdolliset_siirrot(ruudut)
