@@ -1,3 +1,4 @@
+
 import copy
 import time
 
@@ -12,6 +13,7 @@ class Tietokonepelaaja():
         self.ruudukko = ruudukko
         self.x = -1
         self.y = -1
+        self.siirrot = {}
 
 
     def aseta_piste(self, x:int, y:int):
@@ -21,29 +23,31 @@ class Tietokonepelaaja():
 
     def siirra(self):
         if not self.x == -1 and not self.y == -1:
+        
             aika_1 = time.perf_counter()
             ruudut = copy.deepcopy(self.ruudukko.ruudut)
             aika_2 = time.perf_counter()
-            siirrot =  self.mahdolliset_siirrot(ruudut)
-            print("mahdolliset siirrot", siirrot)
+            mahd_siirrot =  self.mahdolliset_siirrot(ruudut)
+            print("mahdolliset siirrot", mahd_siirrot)
             aika_3 = time.perf_counter()
             paras_siirto = None
             paras_arvo = -10000
             parhaat_siirrot = []
 
             aika_4 = time.perf_counter()
-            if len(siirrot) == 1:
-                x, y = siirrot[0]
+            if len(mahd_siirrot) == 1:
+                x, y = mahd_siirrot[list(mahd_siirrot.keys())[0]]
                 self.x = -1
                 self.y = -1
                 return self.merkki, x, y
 
-            for siirto in siirrot:
-                tmp_ruudut = copy.deepcopy(ruudut)
-                tmp_ruudut[siirto[0]][siirto[1]] = self.merkki
+            for siirto in mahd_siirrot:
+                tmp_siirrot = copy.deepcopy(self.siirrot)
+                x,y = siirto
+                tmp_siirrot[(x,y)] = (x,y,"0")
 
                 aika_minimax_1 = time.perf_counter()
-                uusi_arvo = self.alfabeta(tmp_ruudut, 0, 5, False,-1000, 1000)
+                uusi_arvo = self.alfabeta(tmp_siirrot, 0, 5, False,-1000, 1000)
                 aika_minimax_2 = time.perf_counter()
                 parhaat_siirrot.append((siirto, paras_arvo))
                 if uusi_arvo > paras_arvo:
@@ -66,12 +70,18 @@ class Tietokonepelaaja():
         return None
 
 
-    def mahdolliset_siirrot(self, ruudut):
-        n = len(ruudut)
-        neloset = []
-        kolmoset = []
-        kakkoset = []
-        vapaat = []
+    def mahdolliset_siirrot(self, tehdyt_siirrot):
+        n = 20
+        neloset = {}
+        kolmoset = {}
+        kakkoset = {}
+        vapaat = {}
+
+        ruudut = copy.deepcopy(self.ruudukko.ruudut)
+        for siirto in tehdyt_siirrot:
+            x, y = siirto[0], siirto[1]
+            ruudut[x][y] = 0
+
 
         for i in range(n):
             for j in range(n):
@@ -79,20 +89,20 @@ class Tietokonepelaaja():
 
                     neloset_tmp = self.neljan_rivit(ruudut, i, j, n) 
                     if len(neloset_tmp) > 0:
-                        neloset += neloset_tmp
+                        neloset.update(neloset_tmp)
                     kolmoset_tmp = self.kolmen_rivit(ruudut, i, j, n)
                     if len(kolmoset_tmp) > 0:
-                        kolmoset += kolmoset_tmp
+                        kolmoset.update(kolmoset_tmp)
                     kakkoset_tmp = self.kahden_rivit(ruudut, i, j, n)
                     if len(kakkoset_tmp) > 0:
-                        kakkoset += kakkoset_tmp
+                        kakkoset.update(kakkoset_tmp)
         
         if len(neloset) > 0:
             return neloset
         if len(kolmoset) > 0:
-            vapaat += kolmoset
-        if len(kakkoset)>0 and len(vapaat) < 3:
-            vapaat += kakkoset
+            vapaat.update(kolmoset)
+        if len(kakkoset)>0:
+            vapaat.update(kakkoset)
 
         if len(vapaat) > 0:
             return vapaat
@@ -101,233 +111,216 @@ class Tietokonepelaaja():
             for j in range(n):
                 if ruudut[i][j] != -1:
                     if i+1 <n and ruudut[i+1][j] == -1:
-                        return [(i+1,j)]
+                        return {(i+1,j):(i+1,j)}
                     if j+1<n and ruudut[i][j+1] == -1:
-                        return [(i,j+1)]
+                        return {(i,j+1):(i,j+1)}
                     if i+1<n and j+1 <n and ruudut[i+1][j+1] == -1:
-                        return [(i+1,j+1)]
+                        return {(i+1,j+1):(i+1,j+1)}
                     if i>0 and ruudut[i-1][j] == -1:
-                        return [(i-1,j)]
+                        return {(i-1,j):(i-1,j)}
                     if i>0 and j>0 and ruudut[i-1][j-1] == -1:
-                        return [(i-1,j-1)]                   
+                        return {(i-1,j-1):(i-1,j-1)}     
+                     
 
-        return [(10,10)]
+        return {(5,5):(5,5)}
 
         
     def neljan_rivit(self, ruudut, i, j, n):  
-        vapaat = []
+        vapaat = {}
     
         if (i+4<n)  and (\
             ruudut[i][j] == ruudut[i+1][j] and \
             ruudut[i+1][j] == ruudut[i+2][j] and \
             ruudut[i+2][j] == ruudut[i+3][j] ):
             if ruudut[i+4][j] == -1:
-                vapaat.append((i+4,j))
+                vapaat[(i+4,j)] = (i+4,j)
             if i-1 >=0 and ruudut[i-1][j] == -1:
-                vapaat.append((i-1,j))   
+                vapaat[(i-1,j)]  = (i-1,j)
 
         if (j+4<n) and  (\
             ruudut[i][j] == ruudut[i][j+1] and \
             ruudut[i][j+1] == ruudut[i][j+2] and \
             ruudut[i][j+2] == ruudut[i][j+3] ):
             if ruudut[i][j+4] == -1:
-                vapaat.append((i,j+4))
+                vapaat[(i,j+4)] = (i,j+4)
             if j-1 >=0 and ruudut[i][j-1] == -1:
-                vapaat.append((i,j-1))
+                vapaat[(i,j-1)] = (i,j-1)
         
         if i+4<n and j+4<n and (\
             ruudut[i][j] == ruudut[i+1][j+1] and \
             ruudut[i+1][j+1] == ruudut[i+2][j+2] and \
             ruudut[i+2][j+2] == ruudut[i+3][j+3]):
             if ruudut[i+4][j+4] == -1:
-                vapaat.append((i+4,j+4))
+                vapaat[(i+4,j+4)] = (i+4,j+4)
             if i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
-                vapaat.append((i-1,j-1))
+                vapaat[(i-1,j-1)] = (i-1,j-1)
             
         if i+4<n and j-4>=0 and (\
             ruudut[i][j] == ruudut[i+1][j-1] and \
             ruudut[i+1][j-1] == ruudut[i+2][j-2] and \
             ruudut[i+2][j-2] == ruudut[i+3][j-3]):
             if ruudut[i+4][j-4] == -1:
-                vapaat.append((i+4,j-4))
+                vapaat[(i+4,j-4)] = (i+4,j-4)
             if i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
-                vapaat.append((i-1,j+1))   
+                vapaat[(i-1,j+1)] = (i-1,j+1)
 
         return vapaat
 
 
     def kolmen_rivit(self, ruudut, i, j, n):
-        vapaat = []
+        vapaat = {}
    
         if (i+3<n) and (\
             ruudut[i][j] == ruudut[i+1][j] and \
             ruudut[i+1][j] == ruudut[i+2][j] ): 
             if ruudut[i+3][j] == -1:
-                vapaat.append((i+3,j))
+                vapaat[(i+3,j)] = (i+3,j)
             if i-1 >=0 and ruudut[i-1][j] == -1:
-                vapaat.append((i-1,j))
+                vapaat[(i-1,j)] = (i-1,j)
            
         if (j+3<n) and (\
             ruudut[i][j] == ruudut[i][j+1] and \
             ruudut[i][j+1] == ruudut[i][j+2] ):
             if ruudut[i][j+3] == -1:
-                vapaat.append((i,j+3))
+                vapaat[(i,j+3)] = (i,j+3)
             if j-1 >=0 and ruudut[i][j-1] == -1:
-                vapaat.append((i,j-1))
+                vapaat[(i,j-1)] = (i,j-1)
            
         if i+3<n and j+3<n and (\
             ruudut[i][j] == ruudut[i+1][j+1] and \
             ruudut[i+1][j+1] == ruudut[i+2][j+2]):
             if ruudut[i+3][j+3] == -1:
-                vapaat.append((i+3,j+3))
+                vapaat[(i+3,j+3)] = (i+3,j+3)
             if i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
-                vapaat.append((i-1,j-1))
+                vapaat[(i-1,j-1)] = (i-1,j-1)
       
         if i+3<n and j-3>=0 and (\
             ruudut[i][j] == ruudut[i+1][j-1] and \
             ruudut[i+1][j-1] == ruudut[i+2][j-2]):
             if ruudut[i+3][j-3] == -1:
-                vapaat.append((i+3,j-3))
+                vapaat[(i+3,j-3)] = (i+3,j-3)
             if i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
-                vapaat.append((i-1,j+1))
+                vapaat[(i-1,j+1)] = (i-1,j+1)
 
         return vapaat
 
 
     def kahden_rivit(self, ruudut, i, j, n): 
-        vapaat = []
+        vapaat = {}
  
         if (i+2<n) and (\
             ruudut[i][j] == ruudut[i+1][j] ):
             if ruudut[i+2][j] == -1:
-                vapaat.append((i+2,j))
+                vapaat[(i+2,j)] = (i+2,j)
             if i-1 >=0 and ruudut[i-1][j] == -1:
-                vapaat.append((i-1,j))
+                vapaat[(i-1,j)] = (i-1,j) 
         
         if (j+2<n) and (\
             ruudut[i][j] == ruudut[i][j+1] ):
             if ruudut[i][j+2] == -1:
-                vapaat.append((i,j+2))
+                vapaat[(i,j+2)] = (i,j+2)
             if j-1 >=0 and ruudut[i][j-1] == -1:
-                vapaat.append((i,j-1))
+                vapaat[(i,j-1)] = (i,j-1)
  
         if i+2<n and j+2<n and (\
             ruudut[i][j] == ruudut[i+1][j+1] ):
             if ruudut[i+2][j+2] == -1:
-                vapaat.append((i+2,j+2))
+                vapaat[(i+2,j+2)] = (i+2,j+2)
             if i-1 >=0 and j-1>=0 and ruudut[i-1][j-1] == -1:
-                vapaat.append((i-1,j-1))
+                vapaat[(i-1,j-1)] = (i-1,j-1)
     
         if i+2<n and j-2>=0 and  (\
             ruudut[i][j] == ruudut[i+1][j-1]):
             if ruudut[i+2][j-2] == -1:
-                vapaat.append((i+2,j-2))
+                vapaat[(i+2,j-2)] = (i+2,j-2)
             if i-1 >=0 and j+1<n and ruudut[i-1][j+1] == -1:
-                vapaat.append((i-1,j+1))
-
+                vapaat[(i-1,j+1)] = (i-1,j+1)
+    
         return vapaat
 
 
-    def pisteyta(self, ruudut):
-        n = len(ruudut)
-        pisteet_x = 0
 
-       # Tietokonepelaaja
-        merkki = "0"
-        for i in range (n):
-            for j in range(n):
-                if i + 4 < n and (ruudut[i][j] == merkki and \
-                    ruudut[i+1][j] == merkki and \
-                    ruudut[i+2][j]  == merkki and \
-                    ruudut[i+3][j]  == merkki and \
-                    ruudut[i+4][j] == merkki):
-                    return 10
-                elif j + 4 < n and (ruudut[i][j] == merkki and \
-                        ruudut[i][j+1] == merkki and \
-                        ruudut[i][j+2]  == merkki):
-                    if ruudut[i][j+3]  == merkki and ruudut[i][j+4] == merkki:
-                        return 10
-                    elif (j-1 >= 0 and ruudut[i][j-1] == -1) and ruudut[i][j+3] == -1:
-                        pisteet_x = 0
-                elif i + 4 < n and j + 4 < n and (ruudut[i][j] == merkki and \
-                        ruudut[i+1][j+1] == merkki and \
-                        ruudut[i+2][j+2]  == merkki):
-                    if ruudut[i+3][j+3]  == merkki and ruudut[i+4][j+4] == merkki:
-                        pisteet_x = 10
-                    elif (i-1 >= 0 and j-1 >= 0 and \
-                        ruudut[i-1][j-1] == -1) and ruudut[i+3][j+3] == -1:
-                        pisteet_x = 0
+    def pisteyta(self, kaikki_siirrot):
+      
+        syvyydet_pelaaja = []
+        syvyydet_tietokone = []
 
-                elif i + 4 < n and j - 4 >= 0 and (ruudut[i][j] == merkki and \
-                        ruudut[i+1][j-1] == merkki and \
-                        ruudut[i+2][j-2]  == merkki):
-                    if ruudut[i+3][j-3]  == merkki and ruudut[i+4][j-4] == merkki:
-                        pisteet_x = 10
-                    elif (i-1 >= 0 and j+1 < n and ruudut[i-1][j+1] == -1) and \
-                        ruudut[i+3][j-3] == -1:
-                        pisteet_x = 0
+        for siirto in kaikki_siirrot.keys():
+            x, y, merkki = kaikki_siirrot.get(siirto)
+        
+            syvyys_x = 1
+            while (x+syvyys_x,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x+syvyys_x,y)][2] == merkki:
+                syvyys_x += 1 
+            if syvyys_x > 1:
+                if merkki == "X":
+                    syvyydet_pelaaja.append(syvyys_x)
+                else:
+                    syvyydet_tietokone.append(syvyys_x)
 
-        # vastustaja
-        merkki = "X"
-        for i in range (n):
-            for j in range(n):
+            syvyys_y = 1
+            while (x,y+syvyys_y) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+syvyys_y)][2] == merkki:
+                syvyys_y += 1 
+            if syvyys_y > 1:
+                if merkki == "X":
+                    syvyydet_pelaaja.append(syvyys_y)
+                else:
+                    syvyydet_tietokone.append(syvyys_y)
 
-                if i + 4 < n and (ruudut[i][j] == merkki and \
-                        ruudut[i+1][j] == merkki and \
-                        ruudut[i+2][j]  == merkki):
-                    if ruudut[i+3][j]  == merkki and ruudut[i+4][j] == merkki:
-                        return -10
-                    elif (i-1 >= 0 and ruudut[i-1][j] == -1) and ruudut[i+3][j] == -1:
-                        pisteet_x = -5
-                elif j + 4 < n and (ruudut[i][j] == merkki and \
-                        ruudut[i][j+1] == merkki and \
-                        ruudut[i][j+2]  == merkki):
-                    if ruudut[i][j+3]  == merkki  and   ruudut[i][j+4] == merkki:
-                        return -10
-                    elif (j-1 >= 0 and ruudut[i][j-1] == -1) and ruudut[i][j+3] == -1:
-                        pisteet_x = -5
-                elif i + 4 < n and j + 4 < n and (ruudut[i][j] == merkki and \
-                        ruudut[i+1][j+1] == merkki and \
-                        ruudut[i+2][j+2]  == merkki):
-                    if ruudut[i+3][j+3]  == merkki and ruudut[i+4][j+4] == merkki:
-                        return -10
-                    elif (i-1 >= 0 and j-1 >= 0 and ruudut[i-1][j-1] == -1) and \
-                        ruudut[i+3][j+3] == -1:
-                        pisteet_x = -5
-                elif i + 4 < n and j - 4 >= 0 and (ruudut[i][j] == merkki and \
-                        ruudut[i+1][j-1] == merkki and \
-                        ruudut[i+2][j-2]  == merkki):
-                    if ruudut[i+3][j-3]  == merkki and ruudut[i+4][j-4] == merkki:
-                        return -10
-                    elif (i-1 >= 0 and j+1 < n and ruudut[i-1][j+1] == -1) and\
-                        ruudut[i+3][j-3] == -1:
-                        pisteet_x = -5
+            syvyys_xy = 1
+            while (x+syvyys_xy,y+syvyys_xy) in kaikki_siirrot.keys() and\
+                    kaikki_siirrot[(x+syvyys_xy,y+syvyys_xy)][2] == merkki:
+                syvyys_xy += 1 
+            if syvyys_xy > 1:
+                if merkki == "X":
+                    syvyydet_pelaaja.append(syvyys_xy)
+                else:
+                    syvyydet_tietokone.append(syvyys_xy)
 
-        if pisteet_x == -5:
-            return pisteet_x
+            syvyys_x_y = 1
+            while (x+syvyys_x_y,y-syvyys_x_y) in kaikki_siirrot.keys() and\
+                    kaikki_siirrot[(x+syvyys_x_y,y-syvyys_x_y)][2] == merkki:
+                syvyys_x_y += 1 
+            if syvyys_x_y > 1:
+                if merkki == "X":
+                    syvyydet_pelaaja.append(syvyys_x_y)
+                else:
+                    syvyydet_tietokone.append(syvyys_x_y)
+
+        syvyydet_pelaaja.sort(reverse=True)
+        syvyydet_tietokone.sort(reverse=True)
+
+        if len(syvyydet_pelaaja) > 0:
+            if syvyydet_pelaaja[0] == 5:
+                return -10
+            elif syvyydet_pelaaja[0] == 3:
+                return -5
+        if len(syvyydet_tietokone) > 0:
+            if syvyydet_tietokone[0] == 5:
+                return 10
         return 0
 
 
-    def alfabeta(self,ruudut, syvyys, maks_syvyys, maksimoija, alfa, beta):
-        siirrot = self.mahdolliset_siirrot(ruudut)
-        pisteet = self.pisteyta(ruudut)
+    def alfabeta(self,tehdyt_siirrot, syvyys, maks_syvyys, maksimoija, alfa, beta):
+        mahdolliset_siirrot = self.mahdolliset_siirrot(tehdyt_siirrot)
+        pisteet = self.pisteyta(tehdyt_siirrot)
+       
 
         if pisteet == 10:
             return pisteet + syvyys
         elif pisteet == -10:
             return pisteet - syvyys
 
-        if syvyys == maks_syvyys or len(siirrot) == 0:
+        if syvyys == maks_syvyys or len(mahdolliset_siirrot) == 0:
             return pisteet
 
         if maksimoija:
             paras_arvo = -1000
             merkki = "0"
-            for siirto in siirrot:
-                tmp_ruudut = copy.deepcopy(ruudut)
-                tmp_ruudut[siirto[0]][siirto[1]] = merkki
+            for siirto in mahdolliset_siirrot:
+                tmp_siirrot = copy.deepcopy(tehdyt_siirrot)
+                tmp_siirrot[(siirto[0],siirto[1])] = (siirto[0],siirto[1],merkki)
                 paras_arvo = max(paras_arvo, 
-                                self.alfabeta(tmp_ruudut, syvyys+1, maks_syvyys, False, alfa, beta))
+                                self.alfabeta(tmp_siirrot, syvyys+1, maks_syvyys, False, alfa, beta))
                 if paras_arvo >= beta:
                     break
                 alfa = max(alfa, paras_arvo)
@@ -335,11 +328,11 @@ class Tietokonepelaaja():
         else:
             paras_arvo = 1000
             merkki = "X"
-            for siirto in siirrot:
-                tmp_ruudut = copy.deepcopy(ruudut)
-                tmp_ruudut[siirto[0]][siirto[1]] = merkki
+            for siirto in mahdolliset_siirrot:
+                tmp_siirrot = copy.deepcopy(tehdyt_siirrot)
+                tmp_siirrot[(siirto[0],siirto[1])] = (siirto[0],siirto[1],merkki)
                 paras_arvo = min(paras_arvo, 
-                            self.alfabeta(tmp_ruudut, syvyys+1, maks_syvyys, True, alfa, beta))
+                            self.alfabeta(tmp_siirrot, syvyys+1, maks_syvyys, True, alfa, beta))
                 if paras_arvo <= alfa:
                     break
                 beta = min(beta, paras_arvo)

@@ -16,31 +16,98 @@ class TietokonepelaajaTest(unittest.TestCase):
         self.assertEqual((self.pelaaja.x, self.pelaaja.y), (x,y))
 
 
-    def test_pisteyta_tyhja(self):
-        arvo = self.pelaaja.pisteyta(self.ruudut)
-        self.assertEqual(arvo, 0)
+    #def test_pisteyta_tyhja(self):
+    #    arvo = self.pelaaja.pisteyta(self.ruudut)
+    #    self.assertEqual(arvo, 0)
 
 
-    def test_pisteyta_rivi_tietokone(self):
-        self.ruudut[0][0] = "0"
-        self.ruudut[1][0] = "0"
-        self.ruudut[2][0] = "0"
-        self.ruudut[3][0] = "0"
-        self.ruudut[4][0] = "0"
-        arvo = self.pelaaja.pisteyta(self.ruudut)
+    def test_pisteyta_rivi_x_tietokone(self):
+        siirrot = {}
+        siirrot[(0,0)] = (0,0,"0")
+        siirrot[(1,0)] = (1,0,"0")
+        siirrot[(2,0)] = (2,0,"0")
+        siirrot[(3,0)] = (3,0,"0")
+        siirrot[(4,0)] = (4,0,"0")
+        arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, 10)
+    
+    def test_pisteyta_rivi_y_tietokone(self):
+        siirrot = {}
+        siirrot[(0,0)] = (0,0,"0")
+        siirrot[(0,1)] = (0,1,"0")
+        siirrot[(0,2)] = (0,2,"0")
+        siirrot[(0,3)] = (0,3,"0")
+        siirrot[(0,4)] = (0,4,"0")
+        arvo = self.pelaaja.pisteyta(siirrot)
+        self.assertEqual(arvo, 10)
+    
+  
+    def test_pisteyta_rivi_xy_tietokone(self):
+        siirrot = {}
+        siirrot[(0,0)] = (0,0,"0")
+        siirrot[(1,1)] = (1,1,"0")
+        siirrot[(2,2)] = (2,2,"0")
+        siirrot[(3,3)] = (3,3,"0")
+        siirrot[(4,4)] = (4,4,"0")
+        arvo = self.pelaaja.pisteyta(siirrot)
+        self.assertEqual(arvo, 10)
+    
 
+    def test_pisteyta_rivi_x_y_tietokone(self):
+        siirrot = {}
+        siirrot[(10,10)] = (10,10,"0")
+        siirrot[(11,9)] = (11,9,"0")
+        siirrot[(12,8)] = (12,8,"0")
+        siirrot[(13,7)] = (13,7,"0")
+        siirrot[(14,6)] = (14,6,"0")
+        arvo = self.pelaaja.pisteyta(siirrot)
+        self.assertEqual(arvo, 10)
+    
+    def test_pisteyta_rivi_x_nelja_tietokone(self):
+        siirrot = {}
+        siirrot[(0,0)] = (0,0,"0")
+        siirrot[(1,0)] = (1,0,"0")
+        siirrot[(2,0)] = (2,0,"0")
+        siirrot[(3,0)] = (3,0,"0")
+        arvo = self.pelaaja.pisteyta(siirrot)
+        self.assertEqual(arvo, 0)
+    
+    def test_pisteyta_rivi_x_pelaaja(self):
+        siirrot = {}
+        siirrot[(0,0)] = (0,0,"X")
+        siirrot[(1,0)] = (1,0,"X")
+        siirrot[(2,0)] = (2,0,"X")
+        siirrot[(3,0)] = (3,0,"X")
+        siirrot[(4,0)] = (4,0,"X")
+        arvo = self.pelaaja.pisteyta(siirrot)
+        self.assertEqual(arvo, -10)
+    
+  
 
-    def test_pisteyta_x_rivi_pelaaja(self):
-        self.ruudut[0][0] = "X"
-        self.ruudut[1][0] = "X"
-        self.ruudut[2][0] = "X"
-        self.ruudut[3][0] = "X"
-        self.ruudut[4][0] = "X"
-        arvo = self.pelaaja.pisteyta(self.ruudut)
+    def test_pisteyta_rivi_y_pelaaja(self):
+        siirrot = {}
+        siirrot[(0,0)] = (0,0,"X")
+        siirrot[(0,1)] = (0,1,"X")
+        siirrot[(0,2)] = (0,2,"X")
+        siirrot[(0,3)] = (0,3,"X")
+        siirrot[(0,4)] = (0,4,"X")
+        arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, -10)
 
+    def test_pisteyta_rivi_xy_pelaaja(self):
+        siirrot = {}
+        siirrot[(0,0)] = (0,0,"X")
+        siirrot[(1,1)] = (1,1,"X")
+        siirrot[(2,2)] = (2,2,"X")
+        siirrot[(3,3)] = (3,3,"X")
+        siirrot[(4,4)] = (4,4,"X")
+        arvo = self.pelaaja.pisteyta(siirrot)
+        self.assertEqual(arvo, -10)
 
+    
+
+    """
+   
     def test_pisteyta_x_vajaa_rivi_pelaaja(self):
         self.ruudut[10][1] = "X"
         self.ruudut[11][1] = "X"
@@ -227,6 +294,6 @@ class TietokonepelaajaTest(unittest.TestCase):
         self.assertEqual(self.pelaaja.kahden_rivit(self.ruudut,10,10,20), vaihtoehdot)
 
 
-
+"""
 
 

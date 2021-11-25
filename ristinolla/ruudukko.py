@@ -8,15 +8,18 @@ class Ruudukko:
     def __init__(self, n:int):
         self.n = n
         self.ruudut = [[-1]* n for i in range(n)]
+        self.viimeisin_siirto = None
 
 
     def uusi_peli(self):
         self.ruudut = [[-1]* self.n for i in range(self.n)]
+        self.viimeisin_siirto = None
 
 
     def aseta_merkki(self, merkki, x, y):
         if self.ruudut[x][y] == -1:
             self.ruudut[x][y] = merkki
+            self.viimeisin_siirto = (x,y,merkki)
 
 
     def anna_merkki(self, x, y):
