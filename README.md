@@ -1,5 +1,14 @@
 Ristinolla-projekti kurssille Aineopintojen harjoitustyö: Tietorakenteet ja algoritmit (periodi II), Laboratoriotyöskentely.
 
+<b>Asennus</b>
+
+$pip install -r requirements.txt
+
+<b>käynnistäminen</b>
+
+$python main.py
+
+
 Viikko 3 (Päivitettu 20.11.2021)\
 Viikkoraportti 3\
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/viikkoraportti%203.pdf

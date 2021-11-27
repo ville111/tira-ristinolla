@@ -70,8 +70,6 @@ class Tietokonepelaaja():
                     paras_arvo = uusi_arvo
                     paras_siirto = siirto
 
-            #print("parhaat siirrot", parhaat_siirrot)
-            print ("paras siirto on:", paras_siirto, "paras arvo:", paras_arvo)
             x, y = paras_siirto
             self.x = -1
             self.y = -1
@@ -90,6 +88,12 @@ class Tietokonepelaaja():
 
 
     def lisaa_siirto(self, x, y, merkki, siirrot, kirjanpito, tyhjat):
+        """ lisää siirron x,y ja merkki dictionary-taulukkoon siirrot ja kirjanpito.
+        Lisäksi lisää tyhjiä taulukkoon tyhjat kaksi ruutua x,y joka suuntaan missä ei ole muuta merkkiä 
+        tai ruudukko lopu kesken.
+        Jos (x,y) on taulussa tyhjät otetaan tämä pois.
+        """
+
         siirrot[(x,y)] = (x,y,merkki)
         kirjanpito[x][y] = merkki
 
@@ -119,6 +123,8 @@ class Tietokonepelaaja():
 
 
     def pisteyta(self, kaikki_siirrot):
+        """ Piseyttää pelitilanteen. Etsii kaikki_siirrot-taulukosta 3, 4 ja 5 rivejä. 
+        """
       
         syvyydet_pelaaja = []
         syvyydet_tietokone = []
@@ -140,7 +146,6 @@ class Tietokonepelaaja():
                     kaikki_siirrot[(x+syvyys_x,y)][2] != merkki and \
                     (x-1,y) in kaikki_siirrot.keys() and \
                     kaikki_siirrot[(x-1,y)][2] != merkki:
-                    print("blocked 3")
                     syvyys_x = 1
 
                 elif syvyys_x == 4 and (x+syvyys_x,y) in kaikki_siirrot.keys() and\
@@ -215,8 +220,7 @@ class Tietokonepelaaja():
         syvyydet_pelaaja.sort(reverse=True)
         syvyydet_tietokone.sort(reverse=True)
 
-        print("syvyydet peli", syvyydet_pelaaja)
-        print("syvyydet tietokone", syvyydet_tietokone)
+       
         if len(syvyydet_pelaaja) > 0 and syvyydet_pelaaja[0] == 5:
             return -10
         if len(syvyydet_tietokone) > 0 and syvyydet_tietokone[0] == 5:
@@ -244,7 +248,6 @@ class Tietokonepelaaja():
 
         if syvyys == maks_syvyys or len(mahdolliset_siirrot) == 0:
             return pisteet
-
     
         if maksimoija:
             paras_arvo = -1000
@@ -254,7 +257,6 @@ class Tietokonepelaaja():
                 tmp_tyhjat = copy.deepcopy(tyhjat)
                 tmp_kirjanpito = copy.deepcopy(kirjanpito)
                 x, y = siirto
-                #print(f"maximoia: x:{x} y:{y} merkki:{merkki}")
                 self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
              
                 paras_arvo = max(paras_arvo, 
@@ -262,7 +264,6 @@ class Tietokonepelaaja():
                 if paras_arvo >= beta:
                     break
                 alfa = max(alfa, paras_arvo)
-                #print("alpha", alfa, "beta", beta, "paras arvo", paras_arvo)
             return paras_arvo
         else:
             paras_arvo = 1000
@@ -274,7 +275,6 @@ class Tietokonepelaaja():
                 tmp_kirjanpito = copy.deepcopy(kirjanpito)
                 x, y = siirto
                 self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
-               
                 paras_arvo = min(paras_arvo, 
                             self.alfabeta(tmp_siirrot, tmp_kirjanpito, tmp_tyhjat, syvyys+1, maks_syvyys, True, alfa, beta))
                 if paras_arvo <= alfa:
