@@ -8,6 +8,7 @@ $pip install -r requirements.txt
 
 $python main.py
 
+<hr />
 <b>Viikko 4</b> (27.11.2021)\
 
 Viikkoraportti 4\
