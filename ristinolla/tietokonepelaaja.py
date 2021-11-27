@@ -20,11 +20,21 @@ class Tietokonepelaaja():
 
 
     def aseta_piste(self, x:int, y:int):
+        """ tätä metodia peli käyttää laittamaan x ja y arvoiksi jonkin muun kuin -1.
+        Koska siirrä metodia saatetaan kutsua useammin kuin kerran (esim. aina kun hiirellä klikataan)
+        niin tällä estetään siirrä-metodin tekemästä siirtoa kun sellaista ei haluta tehdä.
+        """
         self.x = x
         self.y = y
 
 
     def siirra(self):
+        """ Tämä metodi toteuttaa tietokonepelaajan 
+        siirron. Eli käytännössä palauttaa metodin kutsujalle tietokoneen siirrot.
+        self.x ja self.y estävät metodin toiminnan silloin kun ei haluta, että tietokone tekee uutta
+        siirtoa. Silloin arvot ovat -1. Muussa tapauksessa tietokone on ok tekemän siirron ja arvo on
+        jokun muu (laitettu aseta_piste metodilla).
+        """
         if not self.x == -1 and not self.y == -1:
             aika_1 = time.perf_counter()
 
