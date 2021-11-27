@@ -131,10 +131,9 @@ class Tietokonepelaaja():
 
         for siirto in kaikki_siirrot.keys():
             x, y, merkki = kaikki_siirrot.get(siirto)
-        
             syvyys_x = 1
             while (x+syvyys_x,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x+syvyys_x,y)][2] == merkki:
-                syvyys_x += 1 
+                syvyys_x += 1
             if syvyys_x > 1:
                 if syvyys_x == 3 and (x+syvyys_x,y) in kaikki_siirrot.keys() and\
                     kaikki_siirrot[(x+syvyys_x,y)][2] != merkki:
@@ -159,7 +158,7 @@ class Tietokonepelaaja():
 
             syvyys_y = 1
             while (x,y+syvyys_y) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+syvyys_y)][2] == merkki:
-                syvyys_y += 1 
+                syvyys_y += 1
             if syvyys_y > 1:
                 if syvyys_y == 3 and (x,y+syvyys_y) in kaikki_siirrot.keys() and \
                     kaikki_siirrot[(x,y+syvyys_y)][2] != merkki:
@@ -180,7 +179,7 @@ class Tietokonepelaaja():
             syvyys_xy = 1
             while (x+syvyys_xy,y+syvyys_xy) in kaikki_siirrot.keys() and\
                     kaikki_siirrot[(x+syvyys_xy,y+syvyys_xy)][2] == merkki:
-                syvyys_xy += 1 
+                syvyys_xy += 1
             if syvyys_xy > 1:
                 if syvyys_xy == 3 and (x+syvyys_xy,y+syvyys_xy) in kaikki_siirrot.keys() and \
                     kaikki_siirrot[(x+syvyys_xy,y+syvyys_xy)][2] != merkki:
@@ -200,7 +199,7 @@ class Tietokonepelaaja():
             syvyys_x_y = 1
             while (x+syvyys_x_y,y-syvyys_x_y) in kaikki_siirrot.keys() and\
                     kaikki_siirrot[(x+syvyys_x_y,y-syvyys_x_y)][2] == merkki:
-                syvyys_x_y += 1 
+                syvyys_x_y += 1
             if syvyys_x_y > 1:
                 if syvyys_x_y == 3 and (x+syvyys_x_y,y-syvyys_x_y) in kaikki_siirrot.keys() and \
                     kaikki_siirrot[(x+syvyys_x_y,y-syvyys_x_y)][2] != merkki:
@@ -220,16 +219,16 @@ class Tietokonepelaaja():
         syvyydet_pelaaja.sort(reverse=True)
         syvyydet_tietokone.sort(reverse=True)
 
-       
+
         if len(syvyydet_pelaaja) > 0 and syvyydet_pelaaja[0] == 5:
             return -10
         if len(syvyydet_tietokone) > 0 and syvyydet_tietokone[0] == 5:
             return 10
         if len(syvyydet_pelaaja) > 0 and syvyydet_pelaaja[0] == 4:
             return -5
-        if len(syvyydet_tietokone) > 0 and syvyydet_tietokone[0] == 4:   
+        if len(syvyydet_tietokone) > 0 and syvyydet_tietokone[0] == 4:
             return 5
-        if len(syvyydet_pelaaja) > 0 and syvyydet_pelaaja[0] == 3 :
+        if len(syvyydet_pelaaja) > 0 and syvyydet_pelaaja[0] == 3:
             return -3
         if len(syvyydet_tietokone) > 0 and syvyydet_tietokone[0] == 3:
             return 3
@@ -240,7 +239,7 @@ class Tietokonepelaaja():
     def alfabeta(self,tehdyt_siirrot, kirjanpito, tyhjat, syvyys, maks_syvyys, maksimoija, alfa, beta):
         mahdolliset_siirrot =  tyhjat
         pisteet = self.pisteyta(tehdyt_siirrot)
-       
+
         if pisteet == 10:
             return pisteet + syvyys
         elif pisteet == -10:
@@ -248,7 +247,7 @@ class Tietokonepelaaja():
 
         if syvyys == maks_syvyys or len(mahdolliset_siirrot) == 0:
             return pisteet
-    
+
         if maksimoija:
             paras_arvo = -1000
             merkki = "0"
@@ -258,8 +257,8 @@ class Tietokonepelaaja():
                 tmp_kirjanpito = copy.deepcopy(kirjanpito)
                 x, y = siirto
                 self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
-             
-                paras_arvo = max(paras_arvo, 
+
+                paras_arvo = max(paras_arvo,
                                 self.alfabeta(tmp_siirrot, tmp_kirjanpito, tmp_tyhjat, syvyys+1, maks_syvyys, False, alfa, beta))
                 if paras_arvo >= beta:
                     break
@@ -268,14 +267,14 @@ class Tietokonepelaaja():
         else:
             paras_arvo = 1000
             merkki = "X"
-           
+
             for siirto in mahdolliset_siirrot:
                 tmp_siirrot = copy.deepcopy(tehdyt_siirrot)
                 tmp_tyhjat = copy.deepcopy(tyhjat)
                 tmp_kirjanpito = copy.deepcopy(kirjanpito)
                 x, y = siirto
                 self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
-                paras_arvo = min(paras_arvo, 
+                paras_arvo = min(paras_arvo,
                             self.alfabeta(tmp_siirrot, tmp_kirjanpito, tmp_tyhjat, syvyys+1, maks_syvyys, True, alfa, beta))
                 if paras_arvo <= alfa:
                     break
