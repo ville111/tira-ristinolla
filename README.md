@@ -9,17 +9,17 @@ $pip install -r requirements.txt
 $python main.py
 
 <hr />
-<b>Viikko 4</b> (27.11.2021)\
+<b>Viikko 4</b> (27.11.2021)<br />
 
-Viikkoraportti 4\
+Viikkoraportti 4<br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Viikkoraportti%204.pdf
 
-Toteutusdokumentti \
+Toteutusdokumentti <br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Toteutusdokumentti.pdf
 
 <hr />
-<b>Viikko 3</b> (Päivitetty 20.11.2021)\
-Viikkoraportti 3\
+<b>Viikko 3</b> (Päivitetty 20.11.2021)<br />
+Viikkoraportti 3<br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/viikkoraportti%203.pdf
 
 Testausraportti (aloitettu)\
