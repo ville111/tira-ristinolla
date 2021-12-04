@@ -7,18 +7,20 @@ $pip install -r requirements.txt
 <b>käynnistäminen</b>
 
 $python main.py
+
 <hr />
+<p>
 Määrittelydokumentti <br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/M%C3%A4%C3%A4rittelydokumentti.pdf
-<br />
-
+</p>
+<p>
 Testausraportti (aloitettu)<br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Testausdokumentti.pdf
-<br />
-
+</p>
+<p>
 Toteutusdokumentti <br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Toteutusdokumentti.pdf
-
+</p>
 
 
 <hr />
