@@ -8,6 +8,13 @@ $pip install -r requirements.txt
 
 $python main.py
 
+
+<hr />
+<b>Viikko 5</b><br />
+
+Viikkoraportti <br />
+https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Viikkoraportti%205.pdf
+
 <hr />
 <b>Viikko 4</b> (27.11.2021)<br />
 
