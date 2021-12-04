@@ -10,11 +10,11 @@ $python main.py
 <hr />
 Määrittelydokumentti <br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/M%C3%A4%C3%A4rittelydokumentti.pdf
-
+<br />
 
 Testausraportti (aloitettu)<br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Testausdokumentti.pdf
-
+<br />
 
 Toteutusdokumentti <br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Toteutusdokumentti.pdf
