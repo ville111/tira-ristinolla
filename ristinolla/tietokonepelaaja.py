@@ -16,6 +16,7 @@ class Tietokonepelaaja():
         self.siirrot = {}
         self.tyhjat_ruudut = {}
         self.kirjanpito = [[-1]* 20 for i in range(20)]
+        self.transposition_taulukko = {}
 
 
 
@@ -36,27 +37,23 @@ class Tietokonepelaaja():
         jokun muu (laitettu aseta_piste metodilla).
         """
         if not self.x == -1 and not self.y == -1:
-            aika_1 = time.perf_counter()
-
+           
             viimeisin_siirto = self.ruudukko.viimeisin_siirto
-            if viimeisin_siirto == None:
+            if viimeisin_siirto is None:
                 self.lisaa_siirto(8,8,self.merkki, self.siirrot, self.kirjanpito, self.tyhjat_ruudut)
                 return self.merkki, 8, 8
             else:
                 a, b, merkki = viimeisin_siirto   
                 self.lisaa_siirto(a,b,merkki, self.siirrot, self.kirjanpito, self.tyhjat_ruudut)  
-           
-            aika_2 = time.perf_counter()
 
-            mahd_siirrot =  self.kaikki_mahdolliset_siirrot(self.siirrot, self.kirjanpito, self.tyhjat_ruudut)
+            #mahd_siirrot =  self.kaikki_mahdolliset_siirrot(self.siirrot, self.kirjanpito, self.tyhjat_ruudut)
         
-            aika_3 = time.perf_counter()
-
+            mahd_siirrot = self.tyhjat_ruudut
+        
             paras_siirto = None
             paras_arvo = -10000
             parhaat_siirrot = []
 
-            aika_4 = time.perf_counter()
 
             if len(mahd_siirrot) == 1:
                 x, y = mahd_siirrot[list(mahd_siirrot.keys())[0]]
@@ -70,28 +67,17 @@ class Tietokonepelaaja():
                 x,y = siirto
                 tmp_siirrot[(x,y)] = (x,y,self.merkki)
 
-                aika_minimax_1 = time.perf_counter()
-
-                # minimax maksimi taso nyt 0
-                uusi_arvo = self.alfabeta(tmp_siirrot, self.kirjanpito, self.tyhjat_ruudut, 0, 0, False,-1000, 1000)
-                aika_minimax_2 = time.perf_counter()
-                parhaat_siirrot.append((siirto, paras_arvo))
+                uusi_arvo = self.alfabeta(tmp_siirrot, self.kirjanpito, self.tyhjat_ruudut, 0,4, False,-1000, 1000)
+    
+                parhaat_siirrot.append((siirto, uusi_arvo))
                 if uusi_arvo > paras_arvo:
                     paras_arvo = uusi_arvo
                     paras_siirto = siirto
-
+                
             x, y = paras_siirto
             self.x = -1
             self.y = -1
-            aika_5 = time.perf_counter()
-
-            print(" ")
-            print("kokonaisaika:", aika_5-aika_1)
-            #print("mahdolliset siirrot:", aika_3-aika_2)
-            #print("paras siirto:", aika_5-aika_4)
-            #print("minimax:", aika_minimax_2-aika_minimax_1)
-            print(" ")
-            
+           
             self.lisaa_siirto(x,y,self.merkki, self.siirrot, self.kirjanpito, self.tyhjat_ruudut)
             return self.merkki, x, y
         return None
@@ -133,159 +119,223 @@ class Tietokonepelaaja():
 
 
     def pisteyta(self, kaikki_siirrot):
-        """ Piseyttää pelitilanteen. Etsii kaikki_siirrot-taulukosta 3, 4 ja 5 rivejä. 
-        """
-      
-        syvyydet_pelaaja = []
-        syvyydet_tietokone = []
 
-        for siirto in kaikki_siirrot.keys():
+        pisteet_pelaaja = 0
+        pisteet_tietokone = 0
+       
+        kaikki_siirrot_keys = kaikki_siirrot.keys()
+        for siirto in kaikki_siirrot_keys:
             x, y, merkki = kaikki_siirrot.get(siirto)
-            syvyys_x = 1
-            while (x+syvyys_x,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x+syvyys_x,y)][2] == merkki:
-                syvyys_x += 1
-            if syvyys_x > 1:
-                if syvyys_x == 3 and (x+syvyys_x,y) in kaikki_siirrot.keys() and\
-                    kaikki_siirrot[(x+syvyys_x,y)][2] != merkki:
-                    syvyys_x = 2
-                elif syvyys_x == 3 and (x-1,y) in kaikki_siirrot.keys() and \
-                    kaikki_siirrot[(x-1,y)][2] != merkki:
-                    syvyys_x = 2
-                elif syvyys_x == 3 and (x+syvyys_x,y) in kaikki_siirrot.keys() and\
-                    kaikki_siirrot[(x+syvyys_x,y)][2] != merkki and \
-                    (x-1,y) in kaikki_siirrot.keys() and \
-                    kaikki_siirrot[(x-1,y)][2] != merkki:
-                    syvyys_x = 1
-
-                elif syvyys_x == 4 and (x+syvyys_x,y) in kaikki_siirrot.keys() and\
-                     kaikki_siirrot[(x+syvyys_x,y)][2] != merkki and \
-                    (x-1,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x-1,y)][2] != merkki:
-                    syvyys_x = 1
+            #print(f"x:{x} y:{y} {(x+1,y)} is in kaikki siirrot: {(x+1,y) in kaikki_siirrot_keys}")
+            # 5 rivit
+            if x+4 < 20 and \
+                (x+1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y)][2] == merkki and\
+                (x+2,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y)][2] == merkki and\
+                (x+3,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y)][2] == merkki and\
+                (x+4,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y)][2] == merkki:
                 if merkki == "X":
-                    syvyydet_pelaaja.append(syvyys_x)
+                    pisteet_pelaaja = -10
+                    #return -10 
                 else:
-                    syvyydet_tietokone.append(syvyys_x)
-
-            syvyys_y = 1
-            while (x,y+syvyys_y) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+syvyys_y)][2] == merkki:
-                syvyys_y += 1
-            if syvyys_y > 1:
-                if syvyys_y == 3 and (x,y+syvyys_y) in kaikki_siirrot.keys() and \
-                    kaikki_siirrot[(x,y+syvyys_y)][2] != merkki:
-                    syvyys_y = 2
-                elif syvyys_y == 3 and (x,y-1) in kaikki_siirrot.keys() and \
-                    kaikki_siirrot[(x,y-1)][2] != merkki:
-                    syvyys_y = 2
-                elif syvyys_y == 4 and (x, y+syvyys_y) in kaikki_siirrot.keys() and \
-                    kaikki_siirrot[(x, y+syvyys_y)][2] != merkki and \
-                    (x,y-1) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y-1)][2] != merkki:
-                    syvyys_y = 1
-
+                    pisteet_tietokone = 10
+                    #return 10
+            
+            if y+4 < 20 and \
+                (x,y+1) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+1)][2] == merkki and\
+                (x,y+2) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+2)][2] == merkki and\
+                (x,y+3) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+3)][2] == merkki and\
+                (x,y+4) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+4)][2] == merkki:
                 if merkki == "X":
-                    syvyydet_pelaaja.append(syvyys_y)
+                    pisteet_pelaaja = -10
+                    #return -10 
                 else:
-                    syvyydet_tietokone.append(syvyys_y)
-
-            syvyys_xy = 1
-            while (x+syvyys_xy,y+syvyys_xy) in kaikki_siirrot.keys() and\
-                    kaikki_siirrot[(x+syvyys_xy,y+syvyys_xy)][2] == merkki:
-                syvyys_xy += 1
-            if syvyys_xy > 1:
-                if syvyys_xy == 3 and (x+syvyys_xy,y+syvyys_xy) in kaikki_siirrot.keys() and \
-                    kaikki_siirrot[(x+syvyys_xy,y+syvyys_xy)][2] != merkki:
-                    syvyys_xy = 2
-                elif syvyys_xy == 3 and (x-1,y-1) in kaikki_siirrot.keys() and\
-                    kaikki_siirrot[(x-1,y-1)][2] != merkki:
-                    syvyys_xy = 2
-                elif syvyys_xy == 4 and (x+syvyys_xy,y+syvyys_xy) in kaikki_siirrot.keys() and\
-                     kaikki_siirrot[(x+syvyys_xy,y+syvyys_xy)][2] != merkki and \
-                    (x-1,y-1) in kaikki_siirrot.keys() and kaikki_siirrot[(x-1,y-1)][2] != merkki:
-                    syvyys_xy = 1
+                    pisteet_tietokone = 10
+                    #return 10
+            
+            if x+4 < 20 and y+4 < 20 and \
+                (x+1,y+1) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
+                (x+2,y+2) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y+2)][2] == merkki and\
+                (x+3,y+3) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y+3)][2] == merkki and\
+                (x+4,y+4) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y+4)][2] == merkki:
                 if merkki == "X":
-                    syvyydet_pelaaja.append(syvyys_xy)
+                    pisteet_pelaaja = -10
+                    #return -10 
                 else:
-                    syvyydet_tietokone.append(syvyys_xy)
-
-            syvyys_x_y = 1
-            while (x+syvyys_x_y,y-syvyys_x_y) in kaikki_siirrot.keys() and\
-                    kaikki_siirrot[(x+syvyys_x_y,y-syvyys_x_y)][2] == merkki:
-                syvyys_x_y += 1
-            if syvyys_x_y > 1:
-                if syvyys_x_y == 3 and (x+syvyys_x_y,y-syvyys_x_y) in kaikki_siirrot.keys() and \
-                    kaikki_siirrot[(x+syvyys_x_y,y-syvyys_x_y)][2] != merkki:
-                    syvyys_x_y = 2
-                elif syvyys_x_y == 3 and (x-1,y+1) in kaikki_siirrot.keys() and\
-                    kaikki_siirrot[(x-1,y+1)][2] != merkki:
-                    syvyys_x_y = 2
-                elif syvyys_x_y == 4 and (x+syvyys_x_y, y-syvyys_x_y) in kaikki_siirrot.keys() and\
-                    kaikki_siirrot[(x+syvyys_x_y, y-syvyys_x_y)][2] != merkki and \
-                    (x-1,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x-1,y+1)][2] != merkki:
-                    syvyys_x_y = 1
+                    pisteet_tietokone = 10
+                    #return 10
+            
+            if x+4 < 20 and y-4 > 0 and \
+                (x+1,y-1) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
+                (x+2,y-2) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y-2)][2] == merkki and\
+                (x+3,y-3) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y-3)][2] == merkki and\
+                (x+4,y-4) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y-4)][2] == merkki:
                 if merkki == "X":
-                    syvyydet_pelaaja.append(syvyys_x_y)
+                    pisteet_pelaaja = -10
+                    #return -10 
                 else:
-                    syvyydet_tietokone.append(syvyys_x_y)
+                    pisteet_tietokone = 10
+                    #return 10
 
-        syvyydet_pelaaja.sort(reverse=True)
-        syvyydet_tietokone.sort(reverse=True)
+            """
+            # 4 rivit
 
+            if x+3 < 20 and (x+1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y)][2] == merkki and\
+                (x+2,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y)][2] == merkki and\
+                (x+3,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y)][2] == merkki:
+                if (x+4 < 20 and not (x+4,y) in kaikki_siirrot_keys) or \
+                    (x > 0 and not (x-1,y) in kaikki_siirrot_keys):
+                    if merkki == "0":
+                        pisteet_tietokone = 8
+                        #return 8
+                    else:
+                        pisteet_pelaaja =  -8
+                        #return -8
+            
+            if y+3 < 20 and (x,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+1)][2] == merkki and\
+                (x,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+2)][2] == merkki and\
+                (x,y+3) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+3)][2] == merkki:
+                if merkki == "0":
+                    pisteet_tietokone = 8
+                    #return 8
+                else:
+                    pisteet_pelaaja =  -8
+                    #return -8
+            
+            if x+3 < 20 and y+3 < 20 and (x+1,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
+                (x+2,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y+2)][2] == merkki and\
+                (x+3,y+3) in kaikki_siirrot.keys() and kaikki_siirrot[(x+3,y+3)][2] == merkki:
+                if merkki == "0":
+                    pisteet_tietokone = 8
+                    #return 8
+                else:
+                    pisteet_pelaaja =  -8
+                    #return -8
+            
+            if x+3 < 20 and y-3 >0 and (x+1,y-1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
+                (x+2,y-2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y-2)][2] == merkki and\
+                (x+3,y-3) in kaikki_siirrot.keys() and kaikki_siirrot[(x+3,y-3)][2] == merkki:
+                if merkki == "0":
+                    pisteet_tietokone = 8
+                else:
+                    pisteet_pelaaja =  -8
+            
+            # 3 rivit
 
-        if len(syvyydet_pelaaja) > 0 and syvyydet_pelaaja[0] == 5:
-            return -10
-        if len(syvyydet_tietokone) > 0 and syvyydet_tietokone[0] == 5:
-            return 10
-        if len(syvyydet_pelaaja) > 0 and syvyydet_pelaaja[0] == 4:
-            return -5
-        if len(syvyydet_tietokone) > 0 and syvyydet_tietokone[0] == 4:
-            return 5
-        if len(syvyydet_pelaaja) > 0 and syvyydet_pelaaja[0] == 3:
-            return -3
-        if len(syvyydet_tietokone) > 0 and syvyydet_tietokone[0] == 3:
-            return 3
+            if x+3 < 20 and (x+1,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y)][2] == merkki and\
+                (x+2,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y)][2] == merkki:
 
+                if not (x+3,y) in kaikki_siirrot.keys() or \
+                     (x > 0 and not (x-1,y) in kaikki_siirrot.keys()):
+                    
+                    if merkki == "0":
+                        if pisteet_tietokone == 0:
+                            pisteet_tietokone = 0
+                    else:
+                        if pisteet_pelaaja == 0:
+                            pisteet_pelaaja =  -5
+            
+            if y+3 < 20 and (x,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+1)][2] == merkki and\
+                (x,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+2)][2] == merkki:
+                if not (x,y+3) in kaikki_siirrot.keys() or \
+                     (y > 0 and not (x,y-1) in kaikki_siirrot.keys()):
+                    if merkki == "0":
+                        if pisteet_tietokone == 0:
+                            pisteet_tietokone = 0
+                    else:
+                        if pisteet_pelaaja == 0:
+                            pisteet_pelaaja =  -5
+                
+            if x+3 < 20 and y+3 < 20 and (x+1,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
+                (x+2,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y+2)][2] == merkki:
+                if not (x+3,y+3) in kaikki_siirrot.keys() or \
+                     (x > 0 and y > 0 and not (x-1,y-1) in kaikki_siirrot.keys()):
+                    if merkki == "0":
+                        if pisteet_tietokone == 0:
+                            pisteet_tietokone = 0
+                    else:
+                        if pisteet_pelaaja == 0:
+                            pisteet_pelaaja =  -5
+            
+            if x+3 < 20 and y-3 > 0 and (x+1,y-1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
+                (x+2,y-2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y-2)][2] == merkki :
+                if  not (x+3,y-3) in kaikki_siirrot.keys() or \
+                     (x > 0 and y < 20 and not (x-1,y+1) in kaikki_siirrot.keys()):
+                    if merkki == "0":
+                        if pisteet_tietokone == 0:
+                            pisteet_tietokone = 0
+                    else:
+                        if pisteet_pelaaja == 0:
+                            pisteet_pelaaja =  -5
+
+            #print (f"p pelaaja: {pisteet_pelaaja} p kone: {pisteet_tietokone}")
+            if pisteet_tietokone == 10:
+                return 10
+
+            if pisteet_pelaaja == -5:
+                #print("return p",pisteet_pelaaja)
+                return pisteet_pelaaja   
+            if pisteet_tietokone == 5:
+                #print("return tieto",pisteet_tietokone)
+                return pisteet_tietokone
+
+            #return pisteet_pelaaja
+            """
+        if pisteet_pelaaja == -10:
+            return pisteet_pelaaja
+        if pisteet_tietokone == 10:
+            return pisteet_tietokone
+        
+        if pisteet_pelaaja == -8:
+            return pisteet_pelaaja
+        
+        if pisteet_tietokone == 8:
+            return pisteet_tietokone
         return 0
+    
 
-
-    def alfabeta(self,tehdyt_siirrot, kirjanpito, tyhjat, syvyys, maks_syvyys, maksimoija, alfa, beta):
-        mahdolliset_siirrot =  tyhjat
+    def alfabeta(self, tehdyt_siirrot, kirjanpito, tyhjat, syvyys, maks_syvyys, maksimoija, alfa, beta):
+      
         pisteet = self.pisteyta(tehdyt_siirrot)
+        #print("pisteet", pisteet)
 
         if pisteet == 10:
             return pisteet + syvyys
         elif pisteet == -10:
             return pisteet - syvyys
 
-        if syvyys == maks_syvyys or len(mahdolliset_siirrot) == 0:
+        if syvyys == maks_syvyys or len(tyhjat) == 0:
             return pisteet
 
         if maksimoija:
             paras_arvo = -1000
             merkki = "0"
-            for siirto in mahdolliset_siirrot:
+            for siirto in tyhjat:   
+                x, y = siirto
                 tmp_siirrot = copy.deepcopy(tehdyt_siirrot)
                 tmp_tyhjat = copy.deepcopy(tyhjat)
-                tmp_kirjanpito = copy.deepcopy(kirjanpito)
-                x, y = siirto
+                tmp_kirjanpito = copy.deepcopy(kirjanpito) 
                 self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
-
                 paras_arvo = max(paras_arvo,
-                                self.alfabeta(tmp_siirrot, tmp_kirjanpito, tmp_tyhjat, syvyys+1, maks_syvyys, False, alfa, beta))
+                                self.alfabeta(tmp_siirrot, tmp_kirjanpito, 
+                                                tmp_tyhjat, syvyys+1, maks_syvyys, False, alfa, beta))
                 if paras_arvo >= beta:
                     break
                 alfa = max(alfa, paras_arvo)
             return paras_arvo
+
         else:
             paras_arvo = 1000
             merkki = "X"
 
-            for siirto in mahdolliset_siirrot:
+            for siirto in tyhjat:
+                x, y = siirto
                 tmp_siirrot = copy.deepcopy(tehdyt_siirrot)
                 tmp_tyhjat = copy.deepcopy(tyhjat)
                 tmp_kirjanpito = copy.deepcopy(kirjanpito)
-                x, y = siirto
                 self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
                 paras_arvo = min(paras_arvo,
-                            self.alfabeta(tmp_siirrot, tmp_kirjanpito, tmp_tyhjat, syvyys+1, maks_syvyys, True, alfa, beta))
+                            self.alfabeta(tmp_siirrot, tmp_kirjanpito,
+                                     tmp_tyhjat, syvyys+1, maks_syvyys, True, alfa, beta))    
                 if paras_arvo <= alfa:
                     break
                 beta = min(beta, paras_arvo)

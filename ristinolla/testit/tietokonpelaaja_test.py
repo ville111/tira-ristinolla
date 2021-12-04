@@ -31,13 +31,14 @@ class TietokonepelaajaTest(unittest.TestCase):
         ruudut = {(6,5):(6,5), (7,5):(7,5), (4,5):(4,5), (3,5):(3,5)}
         self.assertEqual(arvo, ruudut)
     """
-
+    """
     def test_pisteyta_ruudut_pelaaja(self):
         siirrot = {}
         siirrot[(6,5)] = (6,5,"X")
         siirrot[(6,4)] = (6,4,"X")
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, 0)
+    """
 
     def test_pisteyta_rivi_xxxx_tietokone(self):
         siirrot = {}
@@ -54,6 +55,65 @@ class TietokonepelaajaTest(unittest.TestCase):
         siirrot[(0,4)] = (0,4,"X")
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, -10)
+
+    def test_paljon_siirtoja_1(self):
+        tmp_siirrot = {}
+
+
+        tmp_siirrot[(5,0)] = (5,0,"X")
+        tmp_siirrot[(1,0)] = (1,0,"X")
+        tmp_siirrot[(2,0)] = (2,0,"X")
+        tmp_siirrot[(3,0)] = (3,0,"X")
+        tmp_siirrot[(4,0)] = (4,0,"X")
+        arvo = self.pelaaja.pisteyta(tmp_siirrot)
+        self.assertEqual(arvo, -10)
+
+    def test_paljon_siirtoja_2(self):
+        tmp_siirrot = {}
+
+        tmp_siirrot[(10,10)] = (10,10,"0")
+        tmp_siirrot[(12,10)] = (12,10,"0")
+        tmp_siirrot[(1,0)] = (1,0,"X")
+        tmp_siirrot[(2,0)] = (2,0,"X")
+        tmp_siirrot[(3,0)] = (3,0,"X")
+        tmp_siirrot[(4,0)] = (4,0,"X")
+        tmp_siirrot[(5,0)] = (5,0,"X")
+        arvo = self.pelaaja.pisteyta(tmp_siirrot)
+        self.assertEqual(arvo, -10)
+
+    def test_alhabeta(self):
+        tmp_siirrot = {}
+        tyhjat_ruudut = {}
+        kirjanpito = [[-1]* 20 for i in range(20)]
+
+        #tmp_siirrot[(10,10)] = (10,10,"0")
+        tmp_siirrot[(11,10)] = (11,10,"0")
+        tmp_siirrot[(12,10)] = (12,10,"0")
+
+        tyhjat_ruudut[(10,0)] = (10,0)
+        tyhjat_ruudut[(13,0)] = (13,0)
+
+        tmp_siirrot[(1,0)] = (1,0,"0")
+        tmp_siirrot[(2,0)] = (2,0,"X")
+        tmp_siirrot[(3,0)] = (3,0,"X")
+        tmp_siirrot[(4,0)] = (4,0,"X")
+        tmp_siirrot[(5,0)] = (5,0,"X")
+        #tmp_siirrot[(5,0)] = (5,0,"X")
+       
+        tyhjat_ruudut[(0,0)] = (0,0)
+        tyhjat_ruudut[(5,0)] = (5,0)
+        #tyhjat_ruudut[(6,0)] = (6,0)
+
+        for siirto in tmp_siirrot.keys():
+            x,y,merkki = tmp_siirrot[siirto]
+            kirjanpito[x][y] = merkki
+       
+        arvo = self.pelaaja.alfabeta(tmp_siirrot, kirjanpito, tyhjat_ruudut, 
+                                    0,4, False,-1000, 1000)
+    
+        self.assertEqual(arvo, 0)
+
+
 
     def test_pisteyta_rivi_x_tietokone(self):
         siirrot = {}
@@ -97,6 +157,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, 10)
     
+    """
     def test_pisteyta_rivi_x_nelja_tietokone(self):
         siirrot = {}
         siirrot[(0,0)] = (0,0,"0")
@@ -104,7 +165,8 @@ class TietokonepelaajaTest(unittest.TestCase):
         siirrot[(2,0)] = (2,0,"0")
         siirrot[(3,0)] = (3,0,"0")
         arvo = self.pelaaja.pisteyta(siirrot)
-        self.assertEqual(arvo, 0)
+        self.assertEqual(arvo, 8)
+    """
     
     def test_pisteyta_rivi_x_pelaaja(self):
         siirrot = {}
@@ -138,24 +200,27 @@ class TietokonepelaajaTest(unittest.TestCase):
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, -10)
 
-    
+    """
     def test_pisteyta_rivi_x_vajaa_pelaaja(self):
         siirrot = {}
         siirrot[(6,5)] = (6,5,"X")
         siirrot[(4,3)] = (4,3,"0")
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, 0)
+    """
+
 
     """
-   
     def test_pisteyta_x_vajaa_rivi_pelaaja(self):
-        self.ruudut[10][1] = "X"
-        self.ruudut[11][1] = "X"
-        self.ruudut[12][1] = "X"
-        arvo = self.pelaaja.pisteyta(self.ruudut)
+        siirrot = {}
+        siirrot[(5,5)] = (5,5,"X")
+        siirrot[(6,5)] = (6,5,"X")
+        siirrot[(7,5)] = (7,5,"X")
+        arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, -5)
+    """
 
-
+    """
     def test_pisteyta_y_rivi_pelaaja(self):
         self.ruudut[0][0] = "X"
         self.ruudut[0][1] = "X"
