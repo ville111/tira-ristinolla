@@ -67,7 +67,7 @@ class Tietokonepelaaja():
                 x,y = siirto
                 tmp_siirrot[(x,y)] = (x,y,self.merkki)
 
-                uusi_arvo = self.alfabeta(tmp_siirrot, self.kirjanpito, self.tyhjat_ruudut, 0,4, False,-1000, 1000)
+                uusi_arvo = self.alfabeta(tmp_siirrot, self.kirjanpito, self.tyhjat_ruudut, 0,0, False,-1000, 1000)
     
                 parhaat_siirrot.append((siirto, uusi_arvo))
                 if uusi_arvo > paras_arvo:
@@ -77,6 +77,11 @@ class Tietokonepelaaja():
             x, y = paras_siirto
             self.x = -1
             self.y = -1
+
+            
+            print("parhaat siirrot")
+            parhaat_siirrot.sort(key=lambda solu: solu[1])
+            print(parhaat_siirrot)
            
             self.lisaa_siirto(x,y,self.merkki, self.siirrot, self.kirjanpito, self.tyhjat_ruudut)
             return self.merkki, x, y
@@ -158,8 +163,8 @@ class Tietokonepelaaja():
                 (x+3,y+3) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y+3)][2] == merkki and\
                 (x+4,y+4) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y+4)][2] == merkki:
                 if merkki == "X":
-                    pisteet_pelaaja = -10
-                    #return -10 
+                    #pisteet_pelaaja = -10
+                    return -10 
                 else:
                     pisteet_tietokone = 10
                     #return 10
@@ -170,13 +175,13 @@ class Tietokonepelaaja():
                 (x+3,y-3) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y-3)][2] == merkki and\
                 (x+4,y-4) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y-4)][2] == merkki:
                 if merkki == "X":
-                    pisteet_pelaaja = -10
-                    #return -10 
+                    #pisteet_pelaaja = -10
+                    return -10 
                 else:
                     pisteet_tietokone = 10
                     #return 10
 
-            """
+            
             # 4 rivit
 
             if x+3 < 20 and (x+1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y)][2] == merkki and\
@@ -185,39 +190,50 @@ class Tietokonepelaaja():
                 if (x+4 < 20 and not (x+4,y) in kaikki_siirrot_keys) or \
                     (x > 0 and not (x-1,y) in kaikki_siirrot_keys):
                     if merkki == "0":
-                        pisteet_tietokone = 8
+                        if pisteet_tietokone < 10:
+                            pisteet_tietokone = 8
                         #return 8
                     else:
-                        pisteet_pelaaja =  -8
+                        if pisteet_pelaaja > -10:
+                            pisteet_pelaaja =  -8
                         #return -8
             
             if y+3 < 20 and (x,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+1)][2] == merkki and\
                 (x,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+2)][2] == merkki and\
                 (x,y+3) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+3)][2] == merkki:
-                if merkki == "0":
-                    pisteet_tietokone = 8
-                    #return 8
-                else:
-                    pisteet_pelaaja =  -8
-                    #return -8
+                    if merkki == "0":
+                        if pisteet_tietokone < 10:
+                            pisteet_tietokone = 8
+                        #return 8
+                    else:
+                        if pisteet_pelaaja > -10:
+                            pisteet_pelaaja =  -8
+                        #return -8
             
             if x+3 < 20 and y+3 < 20 and (x+1,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
                 (x+2,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y+2)][2] == merkki and\
                 (x+3,y+3) in kaikki_siirrot.keys() and kaikki_siirrot[(x+3,y+3)][2] == merkki:
-                if merkki == "0":
-                    pisteet_tietokone = 8
-                    #return 8
-                else:
-                    pisteet_pelaaja =  -8
-                    #return -8
+                    if merkki == "0":
+                        if pisteet_tietokone < 10:
+                            pisteet_tietokone = 8
+                        #return 8
+                    else:
+                        if pisteet_pelaaja > -10:
+                            pisteet_pelaaja =  -8
+                        #return -8
             
             if x+3 < 20 and y-3 >0 and (x+1,y-1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
                 (x+2,y-2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y-2)][2] == merkki and\
                 (x+3,y-3) in kaikki_siirrot.keys() and kaikki_siirrot[(x+3,y-3)][2] == merkki:
-                if merkki == "0":
-                    pisteet_tietokone = 8
-                else:
-                    pisteet_pelaaja =  -8
+                    if merkki == "0":
+                        if pisteet_tietokone < 10:
+                            pisteet_tietokone = 8
+                        #return 8
+                    else:
+                        if pisteet_pelaaja > -10:
+                            pisteet_pelaaja =  -8
+                        #return -8
+            
             
             # 3 rivit
 
@@ -267,6 +283,7 @@ class Tietokonepelaaja():
                         if pisteet_pelaaja == 0:
                             pisteet_pelaaja =  -5
 
+            """
             #print (f"p pelaaja: {pisteet_pelaaja} p kone: {pisteet_tietokone}")
             if pisteet_tietokone == 10:
                 return 10
@@ -280,6 +297,7 @@ class Tietokonepelaaja():
 
             #return pisteet_pelaaja
             """
+            
         if pisteet_pelaaja == -10:
             return pisteet_pelaaja
         if pisteet_tietokone == 10:
@@ -289,6 +307,12 @@ class Tietokonepelaaja():
             return pisteet_pelaaja
         
         if pisteet_tietokone == 8:
+            return pisteet_tietokone
+
+        if pisteet_pelaaja == -5:
+            return pisteet_pelaaja
+        
+        if pisteet_tietokone == 5:
             return pisteet_tietokone
         return 0
     

@@ -67,7 +67,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         tmp_siirrot[(4,0)] = (4,0,"X")
         arvo = self.pelaaja.pisteyta(tmp_siirrot)
         self.assertEqual(arvo, -10)
-
+    """"
     def test_paljon_siirtoja_2(self):
         tmp_siirrot = {}
 
@@ -113,7 +113,7 @@ class TietokonepelaajaTest(unittest.TestCase):
     
         self.assertEqual(arvo, 0)
 
-
+    """
 
     def test_pisteyta_rivi_x_tietokone(self):
         siirrot = {}
@@ -157,7 +157,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, 10)
     
-    """
+    
     def test_pisteyta_rivi_x_nelja_tietokone(self):
         siirrot = {}
         siirrot[(0,0)] = (0,0,"0")
@@ -166,7 +166,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         siirrot[(3,0)] = (3,0,"0")
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, 8)
-    """
+    
     
     def test_pisteyta_rivi_x_pelaaja(self):
         siirrot = {}
@@ -200,17 +200,16 @@ class TietokonepelaajaTest(unittest.TestCase):
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, -10)
 
-    """
+    
     def test_pisteyta_rivi_x_vajaa_pelaaja(self):
         siirrot = {}
         siirrot[(6,5)] = (6,5,"X")
         siirrot[(4,3)] = (4,3,"0")
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, 0)
-    """
 
 
-    """
+
     def test_pisteyta_x_vajaa_rivi_pelaaja(self):
         siirrot = {}
         siirrot[(5,5)] = (5,5,"X")
@@ -218,59 +217,78 @@ class TietokonepelaajaTest(unittest.TestCase):
         siirrot[(7,5)] = (7,5,"X")
         arvo = self.pelaaja.pisteyta(siirrot)
         self.assertEqual(arvo, -5)
-    """
+    
 
-    """
+    
     def test_pisteyta_y_rivi_pelaaja(self):
-        self.ruudut[0][0] = "X"
-        self.ruudut[0][1] = "X"
-        self.ruudut[0][2] = "X"
-        self.ruudut[0][3] = "X"
-        self.ruudut[0][4] = "X"
-        arvo = self.pelaaja.pisteyta(self.ruudut)
+        ruudut = {}
+        ruudut[(0,0)] = (0,0,"X")
+        ruudut[(0,1)] = (0,1,"X")
+        ruudut[(0,2)] = (0,2,"X")
+        ruudut[(0,3)] = (0,3,"X")
+        ruudut[(0,4)] = (0,4,"X")
+        arvo = self.pelaaja.pisteyta(ruudut)
         self.assertEqual(arvo, -10)
 
-
+    
     def test_pisteyta_y_vajaa_rivi_pelaaja(self):
-        self.ruudut[1][14] = "X"
-        self.ruudut[1][15] = "X"
-        self.ruudut[1][16] = "X"
-        arvo = self.pelaaja.pisteyta(self.ruudut)
+        ruudut = {}
+        ruudut[(1,14)] = (1,14,"X")
+        ruudut[(1,15)] = (1,15,"X")
+        ruudut[(1,16)] = (1,16,"X")
+        arvo = self.pelaaja.pisteyta(ruudut)
         self.assertEqual(arvo, -5)
-
+    
 
     def test_pisteyta_vino_rivi_pelaaja(self):
-        self.ruudut[0][0] = "X"
-        self.ruudut[1][1] = "X"
-        self.ruudut[2][2] = "X"
-        self.ruudut[3][3] = "X"
-        self.ruudut[4][4] = "X"
-        arvo = self.pelaaja.pisteyta(self.ruudut)
+        ruudut = {}
+        ruudut[(0,0)] = (0,0,"X")
+        ruudut[(1,1)] = (1,1,"X")
+        ruudut[(2,2)] = (2,2,"X")
+        ruudut[(3,3)] = (3,3,"X")
+        ruudut[(4,4)] = (4,4,"X")
+        arvo = self.pelaaja.pisteyta(ruudut)
         self.assertEqual(arvo, -10)
 
-
+    
     def test_pisteyta_vino2_rivi_pelaaja(self):
-        self.ruudut[10][10] = "X"
-        self.ruudut[11][9] = "X"
-        self.ruudut[12][8] = "X"
-        self.ruudut[13][7] = "X"
-        self.ruudut[14][6] = "X"
-        arvo = self.pelaaja.pisteyta(self.ruudut)
+        ruudut = {}
+        ruudut[(10,10)] = (10,10,"X")
+        ruudut[(11,9)] = (11,9,"X")
+        ruudut[(12,8)] = (12,8,"X")
+        ruudut[(13,7)] = (13,7,"X")
+        ruudut[(14,6)] = (14,6,"X")
+
+        arvo = self.pelaaja.pisteyta(ruudut)
         self.assertEqual(arvo, -10)
+
 
     def test_siirra_tyja(self):
         self.assertEqual(self.pelaaja.siirra(), None)
 
 
     def test_siirra_nelja_rivi(self):
+
+        self.pelaaja.siirrot = {(0,0):(0,0,"X"), 
+                                (1,0):(1,0,"X"), 
+                                (2,0):(2,0,"X"), 
+                                (3,0):(3,0,"X")}
+        self.pelaaja.tyhjat_ruudut = {(0,1):(0,1),
+                                    (0,2):(0,2),(1,1):(1,1),
+                                    (1,2):(1,2),(2,1):(2,1),
+                                    (2,2):(2,2),(3,1):(3,1),
+                                    (3,2):(3,2),(4,0):(4,0),
+                                    (4,1):(4,1),(4,2):(4,2)}
+                                    
         self.ruudukko.ruudut[0][0] = "X"
         self.ruudukko.ruudut[1][0] = "X"
         self.ruudukko.ruudut[2][0] = "X"
         self.ruudukko.ruudut[3][0] = "X"
+        self.ruudukko.viimeisin_siirto = (3,0, "X")
         self.pelaaja.aseta_piste(1,1)
         self.assertEqual(self.pelaaja.siirra(), ("0", 4,0))
 
-
+    """
     def test_mahdolliset_ruudut_1(self):
         self.ruudut[10][10] = "X"
         vaihtoehdot = [(11,10)]
