@@ -78,8 +78,8 @@ class Tietokonepelaaja():
             self.x = -1
             self.y = -1
 
-            
-            print("parhaat siirrot")
+
+            print("parhaat siirrot:", len(parhaat_siirrot))
             parhaat_siirrot.sort(key=lambda solu: solu[1])
             print(parhaat_siirrot)
            
@@ -131,172 +131,35 @@ class Tietokonepelaaja():
         kaikki_siirrot_keys = kaikki_siirrot.keys()
         for siirto in kaikki_siirrot_keys:
             x, y, merkki = kaikki_siirrot.get(siirto)
-            #print(f"x:{x} y:{y} {(x+1,y)} is in kaikki siirrot: {(x+1,y) in kaikki_siirrot_keys}")
-            # 5 rivit
-            if x+4 < 20 and \
-                (x+1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y)][2] == merkki and\
-                (x+2,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y)][2] == merkki and\
-                (x+3,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y)][2] == merkki and\
-                (x+4,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y)][2] == merkki:
-                if merkki == "X":
-                    pisteet_pelaaja = -10
-                    #return -10 
-                else:
-                    pisteet_tietokone = 10
-                    #return 10
-            
-            if y+4 < 20 and \
-                (x,y+1) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+1)][2] == merkki and\
-                (x,y+2) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+2)][2] == merkki and\
-                (x,y+3) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+3)][2] == merkki and\
-                (x,y+4) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+4)][2] == merkki:
-                if merkki == "X":
-                    pisteet_pelaaja = -10
-                    #return -10 
-                else:
-                    pisteet_tietokone = 10
-                    #return 10
-            
-            if x+4 < 20 and y+4 < 20 and \
-                (x+1,y+1) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
-                (x+2,y+2) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y+2)][2] == merkki and\
-                (x+3,y+3) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y+3)][2] == merkki and\
-                (x+4,y+4) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y+4)][2] == merkki:
-                if merkki == "X":
-                    #pisteet_pelaaja = -10
-                    return -10 
-                else:
-                    pisteet_tietokone = 10
-                    #return 10
-            
-            if x+4 < 20 and y-4 > 0 and \
-                (x+1,y-1) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
-                (x+2,y-2) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y-2)][2] == merkki and\
-                (x+3,y-3) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y-3)][2] == merkki and\
-                (x+4,y-4) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y-4)][2] == merkki:
-                if merkki == "X":
-                    #pisteet_pelaaja = -10
-                    return -10 
-                else:
-                    pisteet_tietokone = 10
-                    #return 10
 
+            # 5 rivit
+           
+            pisteet_p = self.viiden_rivit(x, y, "X", kaikki_siirrot)[0]
+            pisteet_t  = self.viiden_rivit(x, y, "0", kaikki_siirrot)[1]
+            if  pisteet_p == -10:
+                return -10
+                
+            if pisteet_t  == 10:
+                return 10
             
             # 4 rivit
 
-            if x+3 < 20 and (x+1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y)][2] == merkki and\
-                (x+2,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y)][2] == merkki and\
-                (x+3,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y)][2] == merkki:
-                if (x+4 < 20 and not (x+4,y) in kaikki_siirrot_keys) or \
-                    (x > 0 and not (x-1,y) in kaikki_siirrot_keys):
-                    if merkki == "0":
-                        if pisteet_tietokone < 10:
-                            pisteet_tietokone = 8
-                        #return 8
-                    else:
-                        if pisteet_pelaaja > -10:
-                            pisteet_pelaaja =  -8
-                        #return -8
-            
-            if y+3 < 20 and (x,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+1)][2] == merkki and\
-                (x,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+2)][2] == merkki and\
-                (x,y+3) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+3)][2] == merkki:
-                    if merkki == "0":
-                        if pisteet_tietokone < 10:
-                            pisteet_tietokone = 8
-                        #return 8
-                    else:
-                        if pisteet_pelaaja > -10:
-                            pisteet_pelaaja =  -8
-                        #return -8
-            
-            if x+3 < 20 and y+3 < 20 and (x+1,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
-                (x+2,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y+2)][2] == merkki and\
-                (x+3,y+3) in kaikki_siirrot.keys() and kaikki_siirrot[(x+3,y+3)][2] == merkki:
-                    if merkki == "0":
-                        if pisteet_tietokone < 10:
-                            pisteet_tietokone = 8
-                        #return 8
-                    else:
-                        if pisteet_pelaaja > -10:
-                            pisteet_pelaaja =  -8
-                        #return -8
-            
-            if x+3 < 20 and y-3 >0 and (x+1,y-1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
-                (x+2,y-2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y-2)][2] == merkki and\
-                (x+3,y-3) in kaikki_siirrot.keys() and kaikki_siirrot[(x+3,y-3)][2] == merkki:
-                    if merkki == "0":
-                        if pisteet_tietokone < 10:
-                            pisteet_tietokone = 8
-                        #return 8
-                    else:
-                        if pisteet_pelaaja > -10:
-                            pisteet_pelaaja =  -8
-                        #return -8
-            
+            pisteet_p = self.neljan_rivit(x, y, "X", kaikki_siirrot)[0]
+            pisteet_t = self.neljan_rivit(x, y, "0", kaikki_siirrot)[1]
+            if pisteet_p < pisteet_pelaaja:
+                pisteet_pelaaja = pisteet_p
+            if pisteet_t > pisteet_tietokone:
+                pisteet_tietokone = pisteet_t
             
             # 3 rivit
 
-            if x+3 < 20 and (x+1,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y)][2] == merkki and\
-                (x+2,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y)][2] == merkki:
+            pisteet_p = self.kolmen_rivit(x, y, "X", kaikki_siirrot)[0]
+            pisteet_t = self.kolmen_rivit(x, y, "0", kaikki_siirrot)[1]
+            if pisteet_p < pisteet_pelaaja:
+                pisteet_pelaaja = pisteet_p
+            if pisteet_t > pisteet_tietokone:
+                pisteet_tietokone = pisteet_t
 
-                if not (x+3,y) in kaikki_siirrot.keys() or \
-                     (x > 0 and not (x-1,y) in kaikki_siirrot.keys()):
-                    
-                    if merkki == "0":
-                        if pisteet_tietokone == 0:
-                            pisteet_tietokone = 0
-                    else:
-                        if pisteet_pelaaja == 0:
-                            pisteet_pelaaja =  -5
-            
-            if y+3 < 20 and (x,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+1)][2] == merkki and\
-                (x,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+2)][2] == merkki:
-                if not (x,y+3) in kaikki_siirrot.keys() or \
-                     (y > 0 and not (x,y-1) in kaikki_siirrot.keys()):
-                    if merkki == "0":
-                        if pisteet_tietokone == 0:
-                            pisteet_tietokone = 0
-                    else:
-                        if pisteet_pelaaja == 0:
-                            pisteet_pelaaja =  -5
-                
-            if x+3 < 20 and y+3 < 20 and (x+1,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
-                (x+2,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y+2)][2] == merkki:
-                if not (x+3,y+3) in kaikki_siirrot.keys() or \
-                     (x > 0 and y > 0 and not (x-1,y-1) in kaikki_siirrot.keys()):
-                    if merkki == "0":
-                        if pisteet_tietokone == 0:
-                            pisteet_tietokone = 0
-                    else:
-                        if pisteet_pelaaja == 0:
-                            pisteet_pelaaja =  -5
-            
-            if x+3 < 20 and y-3 > 0 and (x+1,y-1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
-                (x+2,y-2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y-2)][2] == merkki :
-                if  not (x+3,y-3) in kaikki_siirrot.keys() or \
-                     (x > 0 and y < 20 and not (x-1,y+1) in kaikki_siirrot.keys()):
-                    if merkki == "0":
-                        if pisteet_tietokone == 0:
-                            pisteet_tietokone = 0
-                    else:
-                        if pisteet_pelaaja == 0:
-                            pisteet_pelaaja =  -5
-
-            """
-            #print (f"p pelaaja: {pisteet_pelaaja} p kone: {pisteet_tietokone}")
-            if pisteet_tietokone == 10:
-                return 10
-
-            if pisteet_pelaaja == -5:
-                #print("return p",pisteet_pelaaja)
-                return pisteet_pelaaja   
-            if pisteet_tietokone == 5:
-                #print("return tieto",pisteet_tietokone)
-                return pisteet_tietokone
-
-            #return pisteet_pelaaja
-            """
             
         if pisteet_pelaaja == -10:
             return pisteet_pelaaja
@@ -317,10 +180,149 @@ class Tietokonepelaaja():
         return 0
     
 
+    def viiden_rivit(self, x:int, y:int, merkki:str, kaikki_siirrot):
+        kaikki_siirrot_keys = kaikki_siirrot.keys()
+        pisteet_tietokone = 0
+        pisteet_pelaaja = 0
+
+        if x+4 < 20 and \
+            (x+1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y)][2] == merkki and\
+            (x+2,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y)][2] == merkki and\
+            (x+3,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y)][2] == merkki and\
+            (x+4,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y)][2] == merkki:
+            if merkki == "X":
+                pisteet_pelaaja = -10
+            else:
+                pisteet_tietokone = 10
+        if y+4 < 20 and \
+            (x,y+1) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+1)][2] == merkki and\
+            (x,y+2) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+2)][2] == merkki and\
+            (x,y+3) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+3)][2] == merkki and\
+            (x,y+4) in kaikki_siirrot_keys and kaikki_siirrot[(x,y+4)][2] == merkki:
+            if merkki == "X":
+                pisteet_pelaaja = -10
+            else:
+                pisteet_tietokone = 10
+        if x+4 < 20 and y+4 < 20 and \
+            (x+1,y+1) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
+            (x+2,y+2) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y+2)][2] == merkki and\
+            (x+3,y+3) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y+3)][2] == merkki and\
+            (x+4,y+4) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y+4)][2] == merkki:
+            if merkki == "X":
+                pisteet_pelaaja = -10
+            else:
+                pisteet_tietokone = 10
+        if x+4 < 20 and y-4 > 0 and \
+            (x+1,y-1) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
+            (x+2,y-2) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y-2)][2] == merkki and\
+            (x+3,y-3) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y-3)][2] == merkki and\
+            (x+4,y-4) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y-4)][2] == merkki:
+            if merkki == "X":
+                pisteet_pelaaja = -10
+            else:
+                pisteet_tietokone = 10
+        return (pisteet_pelaaja, pisteet_tietokone)
+
+    
+    def neljan_rivit(self, x, y, merkki, kaikki_siirrot):
+
+        kaikki_siirrot_keys = kaikki_siirrot.keys()
+        pisteet_tietokone = 0
+        pisteet_pelaaja = 0
+
+        if x+3 < 20 and (x+1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y)][2] == merkki and\
+                (x+2,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y)][2] == merkki and\
+                (x+3,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y)][2] == merkki:
+                if (x+4 < 20 and not (x+4,y) in kaikki_siirrot_keys) or \
+                    (x > 0 and not (x-1,y) in kaikki_siirrot_keys):
+                    if merkki == "0":
+                        pisteet_tietokone = 8
+                    else:
+                        pisteet_pelaaja =  -8
+        if y+3 < 20 and (x,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+1)][2] == merkki and\
+                (x,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+2)][2] == merkki and\
+                (x,y+3) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+3)][2] == merkki:
+                if (y+4 < 20 and not (x,y+4) in kaikki_siirrot_keys) or \
+                    (y > 0 and not (x,y-1) in kaikki_siirrot_keys):
+                    if merkki == "0":
+                        pisteet_tietokone = 8
+                    else:
+                        pisteet_pelaaja =  -8
+        if x+3 < 20 and y+3 < 20 and (x+1,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
+                (x+2,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y+2)][2] == merkki and\
+                (x+3,y+3) in kaikki_siirrot.keys() and kaikki_siirrot[(x+3,y+3)][2] == merkki:
+                if (x+4 < 20 and y+4 < 20 and not (x+4,y+4) in kaikki_siirrot_keys) or \
+                    (x > 0 and y >0 and not (x-1,y-1) in kaikki_siirrot_keys):
+                    if merkki == "0":
+                        pisteet_tietokone = 8
+                    else:
+                        pisteet_pelaaja =  -8
+        if x+3 < 20 and y-3 >0 and (x+1,y-1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
+                (x+2,y-2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y-2)][2] == merkki and\
+                (x+3,y-3) in kaikki_siirrot.keys() and kaikki_siirrot[(x+3,y-3)][2] == merkki:
+                if (x+4 < 20 and y-3>=0 and not (x+4,y-4) in kaikki_siirrot_keys) or \
+                    (x > 0 and y+1<20 and not (x-1,y+1) in kaikki_siirrot_keys):
+                    if merkki == "0":
+                        pisteet_tietokone = 8
+                    else:
+                        pisteet_pelaaja =  -8        
+        return (pisteet_pelaaja, pisteet_tietokone)
+
+
+    def kolmen_rivit(self, x, y, merkki, kaikki_siirrot):
+        kaikki_siirrot_keys = kaikki_siirrot.keys()
+        pisteet_tietokone = 0
+        pisteet_pelaaja = 0
+
+        if x+3 < 20 and (x+1,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y)][2] == merkki and\
+            (x+2,y) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y)][2] == merkki:
+
+            if (x+3,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y)][2] != merkki and \
+                    (x > 0 and (x-1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x-1,y)][2] != merkki):
+                    if merkki == "0":
+                        pisteet_tietokone = 0
+                    else:
+                        pisteet_pelaaja =  0
+            elif not (x+3,y) in kaikki_siirrot.keys() or \
+                    (x > 0 and not (x-1,y) in kaikki_siirrot_keys):
+                
+                if merkki == "0":
+                        pisteet_tietokone = 0
+                else:
+                        pisteet_pelaaja =  -5
+        
+        if y+3 < 20 and (x,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+1)][2] == merkki and\
+            (x,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x,y+2)][2] == merkki:
+            if not (x,y+3) in kaikki_siirrot.keys() or \
+                    (y > 0 and not (x,y-1) in kaikki_siirrot.keys()):
+                if merkki == "0":
+                        pisteet_tietokone = 0
+                else:
+                        pisteet_pelaaja =  -5
+            
+        if x+3 < 20 and y+3 < 20 and (x+1,y+1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y+1)][2] == merkki and\
+            (x+2,y+2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y+2)][2] == merkki:
+            if not (x+3,y+3) in kaikki_siirrot.keys() or \
+                    (x > 0 and y > 0 and not (x-1,y-1) in kaikki_siirrot.keys()):
+                if merkki == "0":
+                        pisteet_tietokone = 0
+                else:
+                        pisteet_pelaaja =  -5
+        
+        if x+3 < 20 and y-3 > 0 and (x+1,y-1) in kaikki_siirrot.keys() and kaikki_siirrot[(x+1,y-1)][2] == merkki and\
+            (x+2,y-2) in kaikki_siirrot.keys() and kaikki_siirrot[(x+2,y-2)][2] == merkki :
+            if  not (x+3,y-3) in kaikki_siirrot.keys() or \
+                    (x > 0 and y < 20 and not (x-1,y+1) in kaikki_siirrot.keys()):
+                if merkki == "0":
+                        pisteet_tietokone = 0
+                else:
+                        pisteet_pelaaja =  -5
+        return (pisteet_pelaaja, pisteet_tietokone)
+
+
     def alfabeta(self, tehdyt_siirrot, kirjanpito, tyhjat, syvyys, maks_syvyys, maksimoija, alfa, beta):
       
         pisteet = self.pisteyta(tehdyt_siirrot)
-        #print("pisteet", pisteet)
 
         if pisteet == 10:
             return pisteet + syvyys
