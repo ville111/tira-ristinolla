@@ -1,6 +1,7 @@
 
 import copy
 import time
+from ristinolla.transponointitaulukko import Transponointitaulukko
 
 
 class Tietokonepelaaja():
@@ -17,6 +18,7 @@ class Tietokonepelaaja():
         self.tyhjat_ruudut = {}
         self.kirjanpito = [[-1]* 20 for i in range(20)]
         self.transposition_taulukko = {}
+        tt = Transponointitaulukko()
 
 
 
@@ -46,8 +48,6 @@ class Tietokonepelaaja():
                 a, b, merkki = viimeisin_siirto   
                 self.lisaa_siirto(a,b,merkki, self.siirrot, self.kirjanpito, self.tyhjat_ruudut)  
 
-            #mahd_siirrot =  self.kaikki_mahdolliset_siirrot(self.siirrot, self.kirjanpito, self.tyhjat_ruudut)
-        
             mahd_siirrot = self.tyhjat_ruudut
         
             paras_siirto = None
@@ -67,7 +67,7 @@ class Tietokonepelaaja():
                 x,y = siirto
                 tmp_siirrot[(x,y)] = (x,y,self.merkki)
 
-                uusi_arvo = self.alfabeta(tmp_siirrot, self.kirjanpito, self.tyhjat_ruudut, 0,0, False,-1000, 1000)
+                uusi_arvo = self.alfabeta(tmp_siirrot, self.kirjanpito, self.tyhjat_ruudut, 0,2, False,-1000, 1000)
     
                 parhaat_siirrot.append((siirto, uusi_arvo))
                 if uusi_arvo > paras_arvo:

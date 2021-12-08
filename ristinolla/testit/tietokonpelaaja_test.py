@@ -3,6 +3,7 @@ from ristinolla.tietokonepelaaja import Tietokonepelaaja
 from ristinolla.ruudukko import Ruudukko
 
 
+
 class TietokonepelaajaTest(unittest.TestCase):
     def setUp(self):
         self.ruudukko = Ruudukko(20)
