@@ -166,7 +166,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         siirrot[(2,0)] = (2,0,"0")
         siirrot[(3,0)] = (3,0,"0")
         arvo = self.pelaaja.pisteyta(siirrot)
-        self.assertEqual(arvo, 8)
+        self.assertEqual(arvo, 0)
     
     
     def test_pisteyta_rivi_x_pelaaja(self):
