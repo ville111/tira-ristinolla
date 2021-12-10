@@ -11,11 +11,9 @@ class Transponointitaulukko():
     
     def tallenna(self, ruudukko, maximi:bool, arvo:int):
         hash = self.hash_arvo(ruudukko)
-
         merkinta = self.hae_hash(hash)
         if merkinta is None:
-            merkinta = Merkinta(hash)
-           
+            merkinta = Merkinta(hash) 
         if maximi == Merkinta.MAKSIMOIJA:
             merkinta.maksimiarvo(arvo)
         else:
@@ -30,18 +28,18 @@ class Transponointitaulukko():
         if hash in self.merkinnat.keys():
             return self.merkinnat[hash]
         return None
-    
+
 
     def hae(self, ruudukko, maksimi:bool):
         """ hakee ruudukon minimi- tai maksimi-arvon 
         """
         hash = self.hash_arvo(ruudukko)
-    
+
         if hash in self.merkinnat.keys():
             merkinta = self.merkinnat[hash]
-            if maksimi == Merkinta.MAKSIMOIJA and  not merkinta.maximi is None:    
-                return merkinta.maximi
-            elif not merkinta.minimi is None:    
+            if maksimi == Merkinta.MAKSIMOIJA and  not merkinta.maksimi is None:
+                return merkinta.maksimi
+            elif not merkinta.minimi is None:
                 return merkinta.minimi
         return None
 

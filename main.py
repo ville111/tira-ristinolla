@@ -91,11 +91,13 @@ class Ristinolla:
     def tilaviesti(self, viesti:str):
         self.ikkuna.blit(self.fontti.render(viesti, True, (0, 0, 0)),(4, self.ikkunan_korkeus+4))
     
+
     def nappi_painettu(self, a, b):
         x, y, w, h = 280, self.ikkunan_korkeus+1 , 195 , 25
         if a >= x and a < x+200 and b >=y and b < y+25:
             return True
         return False
+
 
     def nappi(self):
         viesti = "Uusi peli"
