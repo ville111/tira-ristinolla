@@ -389,6 +389,10 @@ class Tietokonepelaaja():
         if syvyys == maks_syvyys or len(tyhjat) == 0:
             return pisteet
 
+        merkinta_arvo = self.transposition_taulukko.hae(kirjanpito, maksimoija)
+        if not merkinta_arvo is None:
+            return merkinta_arvo
+
         if maksimoija:
             paras_arvo = -1000
             merkki = "0"
@@ -399,15 +403,12 @@ class Tietokonepelaaja():
                 tmp_kirjanpito = copy.deepcopy(kirjanpito)
                 self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
 
-                # ao toiminnalisuus kommentoitu pois koska se ei toimi.
-                #merkinta_arvo = self.transposition_taulukko.hae(tmp_kirjanpito, Merkinta.MAKSIMOIJA)
-                #if merkinta_arvo is None:
+               
                 paras_arvo = max(paras_arvo,
                                     self.alfabeta(tmp_siirrot, tmp_kirjanpito, 
                                                     tmp_tyhjat, syvyys+1, maks_syvyys, False, alfa, beta))
-                #    self.transposition_taulukko.tallenna(tmp_kirjanpito, Merkinta.MAKSIMOIJA, paras_arvo)
-                #else:
-                #    paras_arvo = merkinta_arvo
+                self.transposition_taulukko.tallenna(tmp_kirjanpito, Merkinta.MAKSIMOIJA, paras_arvo)
+               
 
                 if paras_arvo >= beta:
                     break
@@ -422,14 +423,12 @@ class Tietokonepelaaja():
                 tmp_tyhjat = copy.deepcopy(tyhjat)
                 tmp_kirjanpito = copy.deepcopy(kirjanpito)
                 self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
-                #merkinta_arvo = self.transposition_taulukko.hae(tmp_kirjanpito, Merkinta.MINIMOIJA)
-                #if merkinta_arvo is None:
+               
                 paras_arvo = min(paras_arvo,
                                 self.alfabeta(tmp_siirrot, tmp_kirjanpito,
                                         tmp_tyhjat, syvyys+1, maks_syvyys, True, alfa, beta))  
-                #    self.transposition_taulukko.tallenna(tmp_kirjanpito, Merkinta.MINIMOIJA, paras_arvo)
-                #else:
-                #    paras_arvo = merkinta_arvo 
+                self.transposition_taulukko.tallenna(tmp_kirjanpito, Merkinta.MINIMOIJA, paras_arvo)
+               
                 if paras_arvo <= alfa:
                     break
                 beta = min(beta, paras_arvo)

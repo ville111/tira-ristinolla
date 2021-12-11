@@ -23,6 +23,10 @@ https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Toteutusdoku
 </p>
 <hr />
 <b>Viikko 6</b><br />
+<p>
+Huom. Toisin kuin viikkoraportissa mainittu niin transposition-taulukko toiminnallisuus näyttää toimivan.
+Ensimmäiset siirrot todella hitaita mutta sen jälkeen nopeaa toimintaa. Kysymys tässä kohtaa on pelaako tietokone oikein. Aika loppui tällä 
+viikolla kesken.<p/>
 Viikkoraportti <br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Viikkoraportti%206.pdf
 
