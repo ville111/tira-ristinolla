@@ -21,7 +21,10 @@ https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Testausdokum
 Toteutusdokumentti <br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Toteutusdokumentti.pdf
 </p>
-
+<hr />
+<b>Viikko 6</b><br />
+Viikkoraportti <br />
+https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Viikkoraportti%206.pdf
 
 <hr />
 <b>Viikko 5</b><br />
