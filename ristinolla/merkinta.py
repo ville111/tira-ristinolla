@@ -8,12 +8,19 @@ class Merkinta:
         self.id = id
         self.maksimi = None
         self.minimi = None
+        self.syvyys = 0
+
     
-    def maksimiarvo(self, arvo:int):
-        self.maximi = arvo
+    def maksimiarvo(self, arvo:int, syvyys:int):
+        if syvyys > self.syvyys:
+            self.syvyys = syvyys
+            self.maximi = arvo
+
     
-    def minimiarvo(self, arvo:int):
-        self.minimi = arvo
+    def minimiarvo(self, arvo:int, syvyys:int):
+        if syvyys > self.syvyys:
+            self.syvyys = syvyys
+            self.minimi = arvo
 
 
 

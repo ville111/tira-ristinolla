@@ -9,15 +9,15 @@ class Transponointitaulukko():
         self.zobrist_taulukko = [[random.randint(1,2**64 - 1) for i in range(2)] for j in range(400)]
     
     
-    def tallenna(self, ruudukko, maximi:bool, arvo:int):
+    def tallenna(self, ruudukko, maximi:bool, arvo:int, syvyys:int):
         hash = self.hash_arvo(ruudukko)
         merkinta = self.hae_hash(hash)
         if merkinta is None:
             merkinta = Merkinta(hash) 
         if maximi == Merkinta.MAKSIMOIJA:
-            merkinta.maksimiarvo(arvo)
+            merkinta.maksimiarvo(arvo, syvyys)
         else:
-            merkinta.minimiarvo(arvo)
+            merkinta.minimiarvo(arvo, syvyys)
         self.merkinnat[hash] = merkinta
         return hash
 
