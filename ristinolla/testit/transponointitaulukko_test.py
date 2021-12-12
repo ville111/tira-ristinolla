@@ -15,6 +15,6 @@ class TransponointitaulukkoTest(unittest.TestCase):
         self.ruudut[0][0] = "X"
         self.ruudut[1][0] = "X"
         self.ruudut[2][0] = "X"
-        hash = self.taulukko.tallenna(self.ruudut, Merkinta.MAKSIMOIJA, 10)
+        hash = self.taulukko.tallenna(self.ruudut, Merkinta.MAKSIMOIJA, 10, True)
         self.assertEqual(self.taulukko.hae_hash(hash).id, hash)
 

@@ -217,7 +217,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         siirrot[(6,5)] = (6,5,"X")
         siirrot[(7,5)] = (7,5,"X")
         arvo = self.pelaaja.pisteyta(siirrot)
-        self.assertEqual(arvo, -5)
+        self.assertEqual(arvo, 0)
     
 
     
@@ -238,7 +238,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         ruudut[(1,15)] = (1,15,"X")
         ruudut[(1,16)] = (1,16,"X")
         arvo = self.pelaaja.pisteyta(ruudut)
-        self.assertEqual(arvo, -5)
+        self.assertEqual(arvo, 0)
     
 
     def test_pisteyta_vino_rivi_pelaaja(self):
@@ -535,3 +535,44 @@ class TietokonepelaajaTest(unittest.TestCase):
         ruudut[(12,8)] = (12,8,"X")
         self.assertEqual(self.pelaaja.kolmen_rivit(10,10,"X", ruudut), (-5,0))
 
+
+    def test_lisaa_siirto_siirrot(self):
+        siirrot = {}
+        tyhjat = {}
+        x, y, merkki = (10,10,"X")
+        tyhjat, palauta_tyhjiin = self.pelaaja.lisaa_siirto(x,y, merkki, siirrot, self.ruudut, tyhjat)
+        self.assertEqual(siirrot, {(x,y):(x,y,merkki)})
+
+
+    def test_lisaa_siirto_tyhjat(self):
+        siirrot = {}
+        tyhjat = {}
+        x, y, merkki = (10,10,"X")
+        tyhjat_paluu, palauta_tyhjiin = self.pelaaja.lisaa_siirto(x,y, merkki, siirrot, self.ruudut, tyhjat)
+        tyhjat_vertailu =  {}
+        x1, y1, x2, y2 = (x-1, y-1, x+2, y+2)
+
+        for i in range (x1, x2):
+            for j in range(y1, y2):
+                if not (i == x and j == y):
+                    tyhjat_vertailu[(i,j)] = (i,j)
+
+        self.assertEqual(tyhjat,tyhjat_vertailu)
+
+
+    def test_poist_siirt_siirrot(self):
+        siirrot = {}
+        tyhjat = {}
+        x, y, merkki = (10,10,"X")
+        tyhjat_palauta, palauta_tyhjiin = self.pelaaja.lisaa_siirto(x,y, merkki, siirrot, self.ruudut, tyhjat)
+        self.pelaaja.poista_siirto(x,y, siirrot, self.ruudut, tyhjat, tyhjat_palauta, palauta_tyhjiin)
+        self.assertEqual(siirrot, {})
+    
+
+    def test_poist_siirt_tyhjat(self):
+        siirrot = {}
+        tyhjat = {(2,2):(2,2), (2,3):(2,3)}
+        x, y, merkki = (10,10,"X")
+        tyhjat_palauta, palauta_tyhjiin = self.pelaaja.lisaa_siirto(x,y, merkki, siirrot, self.ruudut, tyhjat)
+        self.pelaaja.poista_siirto(x,y, siirrot, self.ruudut, tyhjat, tyhjat_palauta, palauta_tyhjiin)
+        self.assertEqual(tyhjat,  {(2,2):(2,2), (2,3):(2,3)})

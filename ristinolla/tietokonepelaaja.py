@@ -99,6 +99,10 @@ class Tietokonepelaaja():
 
                 self.lisaa_siirto(x,y, self.merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat_ruudut)
 
+                #lisatyt_tyhjat = self.lisaa_siirto(x,y, self.merkki, self.siirrot, self.kirjanpito, self.tyhjat_ruudut)
+                #uusi_arvo = self.alfabeta(self.siirrot, self.kirjanpito, self.tyhjat_ruudut, 0,5, False,-1000, 1000)
+                #self.poista_siirto(x,y, self.siirrot, self.kirjanpito, self.tyhjat_ruudut, lisatyt_tyhjat)
+
                 uusi_arvo = self.alfabeta(tmp_siirrot, tmp_kirjanpito, tmp_tyhjat_ruudut, 0,5, False,-1000, 1000)
 
                 parhaat_siirrot.append((siirto, uusi_arvo))
@@ -109,7 +113,6 @@ class Tietokonepelaaja():
             x, y = paras_siirto
             self.x = -1
             self.y = -1
-
 
             print("parhaat siirrot:", len(parhaat_siirrot))
             parhaat_siirrot.sort(key=lambda solu: solu[1])
@@ -130,6 +133,17 @@ class Tietokonepelaaja():
                     raise ValueError(f"{(i,j)}: ruudukko: {self.ruudukko.ruudut[i][j]} ja kirjanpito {self.kirjanpito[i][j]} eroavat")
 
 
+    def poista_siirto(self, x,y, siirrot, kirjanpito, tyhjat, poistettavat_tyhjat, palauta_tyhjiin):
+        siirrot.pop((x,y))
+        kirjanpito[x][y] = -1
+        for poistettava in poistettavat_tyhjat:
+            if poistettava in tyhjat:
+                tyhjat.pop(poistettava)
+
+        if palauta_tyhjiin:
+            tyhjat[(x,y)] = (x,y)
+           
+
     def lisaa_siirto(self, x, y, merkki, siirrot, kirjanpito, tyhjat):
         """ lisää siirron x,y ja merkki dictionary-taulukkoon siirrot ja kirjanpito.
         Lisäksi lisää tyhjiä taulukkoon tyhjat kaksi ruutua x,y joka suuntaan missä ei ole muuta merkkiä 
@@ -138,15 +152,18 @@ class Tietokonepelaaja():
         """
         if x < 0 or y < 0 or x > 19 or y > 19:
             raise ValueError("x:{x} y:{y}  for x and y correct value is 0 =< N < 20.")
+        
+        siirto_oli_tyhjissa = False
 
         if kirjanpito[x][y] == -1:
             if (x,y) in tyhjat.keys():
                 tyhjat.pop((x,y))
+                siirto_oli_tyhjissa = True
             siirrot[(x,y)] = (x,y,merkki)
             kirjanpito[x][y] = merkki
-            x1, y1, x2, y2 = (x-1,y-1,x+2,y+2)
-            #if len(siirrot) < 4:
-            #    x1, y1, x2, y2 = (x-1, y-1, x+1, y+1)
+            x1, y1, x2, y2 = (x-1, y-1, x+2, y+2)
+          
+            lisatyt_tyhjat = []
 
             if x1 < 0:
                 x1 = 0
@@ -160,7 +177,7 @@ class Tietokonepelaaja():
             for i in range (x1, x2):
                 for j in range(y1, y2):
                     if not (i == x and j == y) and kirjanpito[i][j] == -1:
-                        if len(siirrot) < 4 and ((i > 0 and kirjanpito[i-1][j] != -1) or \
+                        """if len(siirrot) < 4 and ((i > 0 and kirjanpito[i-1][j] != -1) or \
                             (j > 0 and kirjanpito[i][j-1] != -1) or \
                             (i < 19 and kirjanpito[i+1][j] != -1) or \
                             (j < 19 and kirjanpito[i][j+1] != -1) or \
@@ -177,7 +194,9 @@ class Tietokonepelaaja():
                             (i < 18 and j < 18 and kirjanpito[i+1][j+1] != -1 and kirjanpito[i+2][j+2] != -1) or \
                             (i > 1 and j < 18 and kirjanpito[i-1][j+1] != -1 and kirjanpito[i-2][j+2] != -1) or \
                             (i < 18 and j > 1 and kirjanpito[i+1][j-1] != -1 and kirjanpito[i+2][j-2] != -1)):
-                            tyhjat[(i,j)] = (i,j)
+                        """
+                        tyhjat[(i,j)] = (i,j)
+                        lisatyt_tyhjat.append((i,j))
         else:
             raise ValueError(f"kirjanpito{(x,y)} is not -1: {kirjanpito[x][y]} merkki: {merkki}")
 
@@ -199,6 +218,7 @@ class Tietokonepelaaja():
             if kirjanpito[x][y] != merkki:
                 print(f"virhe: {siirto} on väärin kirjanpidossa {kirjanpito[x][y]}")
         """
+        return (lisatyt_tyhjat, siirto_oli_tyhjissa)
 
 
     def kaikki_mahdolliset_siirrot(self, siirrot, kirjanpito, tyhjat):
@@ -410,21 +430,22 @@ class Tietokonepelaaja():
         #merkinta_arvo = self.transposition_taulukko.hae(kirjanpito, maksimoija)
         #if not merkinta_arvo is None:
         #    return merkinta_arvo
+        mahdolliset_siirrot = copy.deepcopy(tyhjat)
 
         if maksimoija:
             paras_arvo = -1000
             merkki = "0"
-            for siirto in tyhjat:
+           
+            for siirto in mahdolliset_siirrot:
                 x, y = siirto
-                tmp_siirrot = copy.deepcopy(tehdyt_siirrot)
-                tmp_tyhjat = copy.deepcopy(tyhjat)
-                tmp_kirjanpito = copy.deepcopy(kirjanpito)
-                self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
-
-               
+            
+                lisatyt_tyhjat, oli_tyhjissa = self.lisaa_siirto(x,y, merkki, tehdyt_siirrot, kirjanpito, tyhjat)
+              
                 paras_arvo = max(paras_arvo,
-                                    self.alfabeta(tmp_siirrot, tmp_kirjanpito, 
-                                                    tmp_tyhjat, syvyys+1, maks_syvyys, False, alfa, beta))
+                                    self.alfabeta(tehdyt_siirrot, kirjanpito, 
+                                                    tyhjat, syvyys+1, maks_syvyys, False, alfa, beta))
+                self.poista_siirto(x, y, tehdyt_siirrot, kirjanpito, tyhjat, lisatyt_tyhjat, oli_tyhjissa)
+                
                 #self.transposition_taulukko.tallenna(tmp_kirjanpito, Merkinta.MAKSIMOIJA, paras_arvo, syvyys)
                
 
@@ -435,16 +456,15 @@ class Tietokonepelaaja():
         else:
             paras_arvo = 1000
             merkki = "X"
-            for siirto in tyhjat:
+            for siirto in mahdolliset_siirrot:
                 x, y = siirto
-                tmp_siirrot = copy.deepcopy(tehdyt_siirrot)
-                tmp_tyhjat = copy.deepcopy(tyhjat)
-                tmp_kirjanpito = copy.deepcopy(kirjanpito)
-                self.lisaa_siirto(x,y, merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat)
-               
+                
+                lisatyt_tyhjat, oli_tyhjissa = self.lisaa_siirto(x,y, merkki, tehdyt_siirrot, kirjanpito, tyhjat)
                 paras_arvo = min(paras_arvo,
-                                self.alfabeta(tmp_siirrot, tmp_kirjanpito,
-                                        tmp_tyhjat, syvyys+1, maks_syvyys, True, alfa, beta))  
+                                    self.alfabeta(tehdyt_siirrot, kirjanpito, 
+                                                    tyhjat, syvyys+1, maks_syvyys, True, alfa, beta))
+                self.poista_siirto(x, y, tehdyt_siirrot, kirjanpito, tyhjat, lisatyt_tyhjat, oli_tyhjissa)
+                
                 #self.transposition_taulukko.tallenna(tmp_kirjanpito, Merkinta.MINIMOIJA, paras_arvo, syvyys)
                
                 if paras_arvo <= alfa:
