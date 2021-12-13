@@ -7,7 +7,7 @@ from ristinolla.ruudukko import Ruudukko
 class TietokonepelaajaTest(unittest.TestCase):
     def setUp(self):
         self.ruudukko = Ruudukko(20)
-        self.pelaaja = Tietokonepelaaja("0", "nimi", self.ruudukko)
+        self.pelaaja = Tietokonepelaaja("0", "X","nimi", self.ruudukko)
         self.ruudut =  [[-1]* 20 for i in range(20)]
 
 

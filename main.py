@@ -15,8 +15,9 @@ class Ristinolla:
         self.ikkunan_korkeus = 480
         self.peli_jatkuu = True
         self.ruudukko = Ruudukko(20)
-        self.tietokone_pelaaja = Tietokonepelaaja("0", "Pelaaja 2", self.ruudukko)
-        self.peli = Peli(Pelaaja("X", "Pelaaja1"),
+        self.tietokone_pelaaja = Tietokonepelaaja("0", "X", "Pelaaja 2", self.ruudukko,4)
+        self.tietokone_pelaaja_2 = None #Tietokonepelaaja("X", "0", "Pelaaja 1", self.ruudukko, 4)
+        self.peli = Peli( Pelaaja("X", "Pelaaja1"),
                         self.tietokone_pelaaja,
                         self.ruudukko)
         pygame.init()
@@ -69,6 +70,9 @@ class Ristinolla:
         self.peli.uusi_peli()
         self.ruudukko.uusi_peli()
         self.tietokone_pelaaja.alusta_pelaaja()
+        if  not self.tietokone_pelaaja_2 is None:
+            self.tietokone_pelaaja_2.alusta_pelaaja()
+        
         if not self.peli_jatkuu:
             self.peli_jatkuu = True
         self.piirra_ruudukko()

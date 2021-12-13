@@ -9,15 +9,23 @@ class Transponointitaulukko():
         self.zobrist_taulukko = [[random.randint(1,2**64 - 1) for i in range(2)] for j in range(400)]
     
     
-    def tallenna(self, ruudukko, maximi:bool, arvo:int, syvyys:int):
+    def tallenna(self, ruudukko, selite:int, arvo:int, syvyys:int, paras_siirto = None):
         hash = self.hash_arvo(ruudukko)
         merkinta = self.hae_hash(hash)
         if merkinta is None:
             merkinta = Merkinta(hash) 
-        if maximi == Merkinta.MAKSIMOIJA:
-            merkinta.maksimiarvo(arvo, syvyys)
-        else:
-            merkinta.minimiarvo(arvo, syvyys)
+        merkinta.aseta_arvo(arvo, syvyys, selite)
+        self.paras_siirto = paras_siirto
+        self.merkinnat[hash] = merkinta
+        return hash
+
+    
+    def tallenna_avaimella(self, hash, selite:int, arvo:int, syvyys:int, paras_siirto = None):
+        merkinta = self.hae_hash(hash)
+        if merkinta is None:
+            merkinta = Merkinta(hash) 
+        merkinta.aseta_arvo(arvo, syvyys, selite)
+        self.paras_siirto = paras_siirto
         self.merkinnat[hash] = merkinta
         return hash
 
@@ -30,19 +38,24 @@ class Transponointitaulukko():
         return None
 
 
-    def hae(self, ruudukko, maksimi:bool):
-        """ hakee ruudukon minimi- tai maksimi-arvon 
-        """
-        hash = self.hash_arvo(ruudukko)
+    def hae_merkinta(self, ruudukko):
+        return self.hae_hash(self.hash_arvo(ruudukko))
 
-        if hash in self.merkinnat.keys():
-            merkinta = self.merkinnat[hash]
-            if maksimi == Merkinta.MAKSIMOIJA and  not merkinta.maksimi is None:
-                return merkinta.maksimi
-            elif not merkinta.minimi is None:
-                return merkinta.minimi
+
+    def hae_arvo(self, ruudukko, syvyys:int, alfa:int, beta:int):
+        merkinta =  self.hae_merkinta(ruudukko)
+        if not merkinta is None:
+            return merkinta.hae_arvo(syvyys, alfa, beta)
         return None
 
+
+    def hash_lisaa(self, hash, x, y, merkki):
+        z_merkki = 0
+        if merkki == "X":
+            z_merkki = 1
+        hash ^= self.zobrist_taulukko[x*y][z_merkki]
+        return hash
+    
 
     def hash_arvo(self, ruudukko):
         hash = 0
