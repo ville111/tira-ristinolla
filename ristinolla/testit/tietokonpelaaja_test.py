@@ -217,7 +217,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         siirrot[(6,5)] = (6,5,"X")
         siirrot[(7,5)] = (7,5,"X")
         arvo = self.pelaaja.pisteyta(siirrot)
-        self.assertEqual(arvo, 0)
+        self.assertEqual(arvo, -5)
     
 
     
@@ -238,7 +238,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         ruudut[(1,15)] = (1,15,"X")
         ruudut[(1,16)] = (1,16,"X")
         arvo = self.pelaaja.pisteyta(ruudut)
-        self.assertEqual(arvo, 0)
+        self.assertEqual(arvo,-5)
     
 
     def test_pisteyta_vino_rivi_pelaaja(self):
@@ -352,7 +352,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         ruudut[(11,10)] = (11,10,"X")
         ruudut[(12,10)] = (12,10,"X")
         ruudut[(13,10)] = (13,10,"X")
-        self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (-8,0))
+        self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (-10,0))
 
     def test_neljan_rivit_vaaka_blokattu(self):
         ruudut = {}
@@ -371,7 +371,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         ruudut[(10,11)] = (10,11,"X")
         ruudut[(10,12)] = (10,12,"X")
         ruudut[(10,13)] = (10,13,"X")
-        self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (-8,0))
+        self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (-10,0))
 
     def test_neljan_rivit_pysty_blokattu(self):
         ruudut = {}
@@ -390,7 +390,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         ruudut[(11,11)] = (11,11,"X")
         ruudut[(12,12)] = (12,12,"X")
         ruudut[(13,13)] = (13,13,"X")
-        self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (-8,0))
+        self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (-10,0))
 
     def test_neljan_rivit_vino_blokattu(self):
         ruudut = {}
@@ -408,7 +408,7 @@ class TietokonepelaajaTest(unittest.TestCase):
         ruudut[(11,9)] = (11,9,"X")
         ruudut[(12,8)] = (12,8,"X")
         ruudut[(13,7)] = (13,7,"X")
-        self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (-8,0))
+        self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (-10,0))
 
     def test_neljan_rivit_vino2_blokattu(self):
         ruudut = {}
