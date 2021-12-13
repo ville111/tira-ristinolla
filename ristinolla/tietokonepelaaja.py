@@ -97,13 +97,7 @@ class Tietokonepelaaja():
                 tmp_tyhjat_ruudut = copy.deepcopy(self.tyhjat_ruudut)
                 x,y = siirto
 
-                self.lisaa_siirto(x,y, self.merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat_ruudut)
-               
-                #lisatyt_tyhjat, palauta_tyhjiin = self.lisaa_siirto(x,y, self.merkki, self.siirrot, self.kirjanpito, self.tyhjat_ruudut)
-              
-                #uusi_arvo = self.alfabeta(self.siirrot, self.kirjanpito, self.tyhjat_ruudut, 0,5, False,-1000, 1000)
-                #self.poista_siirto(x,y, self.siirrot, self.kirjanpito, self.tyhjat_ruudut, lisatyt_tyhjat, palauta_tyhjiin)
-              
+                self.lisaa_siirto(x,y, self.merkki, tmp_siirrot, tmp_kirjanpito, tmp_tyhjat_ruudut)          
                 uusi_arvo = self.alfabeta(tmp_siirrot, tmp_kirjanpito, tmp_tyhjat_ruudut, 0,4, False,-1000, 1000)
 
                 parhaat_siirrot.append((siirto, uusi_arvo))
@@ -437,20 +431,6 @@ class Tietokonepelaaja():
         if syvyys == maks_syvyys or len(tyhjat) == 0:
             return pisteet
 
-        #merkinta_arvo = self.transposition_taulukko.hae(kirjanpito, maksimoija)
-        #if not merkinta_arvo is None:
-        #    return merkinta_arvo
-        """merkinta = self.transposition_taulukko.hae_hash(self.transposition_taulukko.hash_arvo(kirjanpito))
-        if not merkinta is None:
-            alfa_t = merkinta.maksimi
-            if not alfa_t is None:
-               
-                alfa = alfa_t
-            beta_t = merkinta.minimi
-            if not beta_t is None:
-                
-                beta = beta_t
-        """
         mahdolliset_siirrot = copy.deepcopy(tyhjat)
 
         if maksimoija:
@@ -466,12 +446,8 @@ class Tietokonepelaaja():
                                     self.alfabeta(tehdyt_siirrot, kirjanpito, 
                                                     tyhjat, syvyys+1, maks_syvyys, False, alfa, beta))
                 self.poista_siirto(x, y, tehdyt_siirrot, kirjanpito, tyhjat, lisatyt_tyhjat, oli_tyhjissa)
-                
-                #self.transposition_taulukko.tallenna(kirjanpito, Merkinta.MAKSIMOIJA, paras_arvo, syvyys)
-               
+
                 if paras_arvo >= beta:
-                    #self.transposition_taulukko.tallenna(kirjanpito, Merkinta.MAKSIMOIJA, paras_arvo, syvyys)
-              
                     break
                 alfa = max(alfa, paras_arvo)
             return paras_arvo
@@ -486,12 +462,8 @@ class Tietokonepelaaja():
                                     self.alfabeta(tehdyt_siirrot, kirjanpito, 
                                                     tyhjat, syvyys+1, maks_syvyys, True, alfa, beta))
                 self.poista_siirto(x, y, tehdyt_siirrot, kirjanpito, tyhjat, lisatyt_tyhjat, oli_tyhjissa)
-                
-                #self.transposition_taulukko.tallenna(kirjanpito, Merkinta.MINIMOIJA, paras_arvo, syvyys)
-               
+  
                 if paras_arvo <= alfa:
-                   
-                    #self.transposition_taulukko.tallenna(kirjanpito, Merkinta.MINIMOIJA, paras_arvo, syvyys)
                     break
                 beta = min(beta, paras_arvo)
             return paras_arvo
