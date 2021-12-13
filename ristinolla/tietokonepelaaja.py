@@ -104,7 +104,7 @@ class Tietokonepelaaja():
                 #uusi_arvo = self.alfabeta(self.siirrot, self.kirjanpito, self.tyhjat_ruudut, 0,5, False,-1000, 1000)
                 #self.poista_siirto(x,y, self.siirrot, self.kirjanpito, self.tyhjat_ruudut, lisatyt_tyhjat, palauta_tyhjiin)
               
-                uusi_arvo = self.alfabeta(tmp_siirrot, tmp_kirjanpito, tmp_tyhjat_ruudut, 0,5, False,-1000, 1000)
+                uusi_arvo = self.alfabeta(tmp_siirrot, tmp_kirjanpito, tmp_tyhjat_ruudut, 0,6, False,-1000, 1000)
 
                 parhaat_siirrot.append((siirto, uusi_arvo))
                 if uusi_arvo > paras_arvo:
@@ -308,20 +308,21 @@ class Tietokonepelaaja():
         if x+3 < 20 and (x+1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+1,y)][2] == merkki and\
                 (x+2,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+2,y)][2] == merkki and\
                 (x+3,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+3,y)][2] == merkki:
-
-                if (x+4 < 20 and not (x+4,y) in kaikki_siirrot_keys) and \
-                    (x > 0 and not (x-1,y) in kaikki_siirrot_keys):
-                    if merkki == "0":
-                        pisteet_tietokone = 10
-                    else:
-                        pisteet_pelaaja =  -10
-                elif (x+4 < 20 and (x+4,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y)][2] != merkki) and \
+                if (x+4 < 20 and (x+4,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y)][2] != merkki) and \
                     (x > 0 and (x-1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x-1,y)][2] != merkki):
                     if merkki == "0":
                         pisteet_tietokone = 0
                     else:
                         pisteet_pelaaja =  0
                 
+                elif (x+4 < 20 and not (x+4,y) in kaikki_siirrot_keys) and \
+                    (x > 0 and not (x-1,y) in kaikki_siirrot_keys):
+                    if merkki == "0":
+                        pisteet_tietokone = 10
+                    else:
+                        print("neljan rivi", (x,y))
+                        pisteet_pelaaja =  -10
+               
                 elif (x+4 < 20 and (x+4,y) in kaikki_siirrot_keys and kaikki_siirrot[(x+4,y)][2] != merkki) or \
                     (x > 0 and (x-1,y) in kaikki_siirrot_keys and kaikki_siirrot[(x-1,y)][2] != merkki):
                     if merkki == "0":

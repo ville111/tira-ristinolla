@@ -401,7 +401,22 @@ class TietokonepelaajaTest(unittest.TestCase):
         ruudut[(13,13)] = (13,13,"X")
         ruudut[(14,14)] = (14,14,"0")
         self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (0,0))
-    
+
+
+    def test_neljan_rivit_vino_uudestaan(self):
+        ruudut = {}
+         
+        ruudut[(15,15)] = (15,15,"0")
+        ruudut[(5,5)] = (5,5,"0")
+        ruudut[(9,10)] = (9,10,"0")
+        ruudut[(10,10)] = (10,10,"X")
+        ruudut[(11,10)] = (11,10,"X")
+        ruudut[(12,10)] = (12,10,"X")
+        ruudut[(13,10)] = (13,10,"X")
+        ruudut[(14,10)] = (14,10,"0")
+        self.assertEqual(self.pelaaja.neljan_rivit(10,10,"X", ruudut), (0,0))
+
+
     def test_neljan_rivit_vino2(self):
         ruudut = {}
         ruudut[(10,10)] = (10,10,"X")
