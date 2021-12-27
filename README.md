@@ -18,7 +18,7 @@ Määrittelydokumentti <br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/M%C3%A4%C3%A4rittelydokumentti.pdf
 </p>
 <p>
-Testausraportti (aloitettu)<br />
+Testausraportti<br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/Testausdokumentti.pdf
 </p>
 <p>
