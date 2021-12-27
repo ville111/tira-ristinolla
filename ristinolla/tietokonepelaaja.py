@@ -113,9 +113,7 @@ class Tietokonepelaaja():
                     positiiviset.append((siirto, uusi_arvo))
 
             pisteytetyt_siirrot.sort(key=lambda siirto: siirto[1], reverse=True)            
-            #print("pisteytety", pisteytetyt_siirrot)
-            #if len (positiiviset) > 0:
-            #    pisteytetyt_siirrot = positiiviset
+     
 
             alfa = -1000
             beta = 1000
@@ -158,7 +156,6 @@ class Tietokonepelaaja():
                         if uusi_arvo >= beta:
                             paras_arvo = uusi_arvo
                             paras_siirto =  siirto[0]
-                            #print("ylin taso: break")
                             break
                         alfa = max(alfa, paras_arvo)
                         parhaat_siirrot.append((siirto[0], uusi_arvo))
@@ -170,23 +167,12 @@ class Tietokonepelaaja():
             self.x = -1
             self.y = -1
 
-            #print("parhaat siirrot:", len(parhaat_siirrot))
-            #parhaat_siirrot.sort(key=lambda solu: solu[1])
-            #print(parhaat_siirrot)
-
-            print("siirrot")
-            print(self.siirrot)
-            print("tyhjat")
-            print(self.tyhjat_ruudut)
-            print("kirjanpito")
-            print(self.kirjanpito)
 
             self.lisaa_siirto(x,y,self.merkki, self.siirrot, self.kirjanpito, self.tyhjat_ruudut)
           
             t_2 = time.perf_counter()
             aika = t_2-t_1
             print("aika:", aika)
-            #print("siirto:", (x,y,self.merkki, paras_arvo))
 
             return self.merkki, x, y
         return None
@@ -303,7 +289,7 @@ class Tietokonepelaaja():
                 pisteytetyt_siirrot.append((siirto, arvo))
             
             pisteytetyt_siirrot.sort(key=lambda siirto: siirto[1], reverse=True)
-            #print("maxer sorted", pisteytetyt_siirrot)
+           
 
             for siirto in pisteytetyt_siirrot:
                 x, y = siirto[0]
@@ -344,10 +330,7 @@ class Tietokonepelaaja():
                     merkinta_arvo = merkinta.arvo
                     if merkinta.tietokonepelaaja:
                         merkinta_arvo *=-1
-                    #if merkinta.selite == Merkinta.ALARAJA:
-                    #    merkinta_arvo = 9
-                    #if merkinta.selite == Merkinta.YLARAJA:
-                    #    merkinta_arvo -9
+                   
               
                 lisatyt_tyhjat, oli_tyhjissa = self.lisaa_siirto(x,y, merkki,
                                     tehdyt_siirrot, kirjanpito, tyhjat)
@@ -362,7 +345,7 @@ class Tietokonepelaaja():
                 pisteytetyt_siirrot.append((siirto, arvo))
             
             pisteytetyt_siirrot.sort(key=lambda siirto: siirto[1])
-            #print("miner sorted", pisteytetyt_siirrot)
+         
 
             for siirto in mahdolliset_siirrot:
                 x, y = siirto
@@ -432,13 +415,7 @@ class Tietokonepelaaja():
             if vapaa_3_t:
                 tietokone_vapaat_3_rivit += 1
 
-            # 2 rivit
-            #pisteet_p = self.kahden_rivit(x, y, self.merkki_vastustaja, kaikki_siirrot)[0]
-            #pisteet_t = self.kahden_rivit(x, y, self.merkki, kaikki_siirrot)[1]
-            #if pisteet_p < pisteet_pelaaja:     
-            #    pisteet_pelaaja = pisteet_p
-            #if pisteet_t > pisteet_tietokone:
-            #    pisteet_tietokone = pisteet_t
+   
 
         # koitetaan tunnistaa/luoda/estää tupla-3-rivejä
            
@@ -505,33 +482,7 @@ class Tietokonepelaaja():
                 tietokone_4_rivit += 1
             
 
-            # 3 rivit
-            """
-            pisteet_p, tmp, vapaa_3_p = self.kolmen_rivit(x, y, self.merkki_vastustaja, kaikki_siirrot)
-            tmp, pisteet_t, vapaa_3_t = self.kolmen_rivit(x, y, self.merkki, kaikki_siirrot)
-            if pisteet_p < pisteet_pelaaja:
-                pelaaja_3_rivit += 1
-                pisteet_pelaaja = pisteet_p
-            if pisteet_t > pisteet_tietokone:
-                tietokone_3_rivit += 1
-                pisteet_tietokone = pisteet_t
-            if vapaa_3_p:
-                pelaaja_vapaat_3_rivit += 1
-            if vapaa_3_t:
-                tietokone_vapaat_3_rivit += 1
-            """
 
-        # koitetaan tunnistaa/luoda/estää tupla-3-rivejä
-        """
-        if pelaaja_vapaat_3_rivit >= 2:
-            pisteet_pelaaja = -10
-        if (pelaaja_vapaat_3_rivit > 0 and pelaaja_4_rivit > 0):
-            pisteet_pelaaja = -10
-        if tietokone_vapaat_3_rivit >= 2:
-            pisteet_tietokone = 10
-        if  (tietokone_vapaat_3_rivit > 0 and tietokone_4_rivit > 0):
-            pisteet_tietokone = 10 
-        """
 
 
         if pisteet_tietokone == 10:
@@ -540,12 +491,7 @@ class Tietokonepelaaja():
         if pisteet_pelaaja == -10:
             return pisteet_pelaaja
 
-        #if pisteet_pelaaja == -5:
-        #    return pisteet_pelaaja
-        #if pisteet_tietokone == 5:
-        #   return pisteet_tietokone
-        #if pisteet_tietokone == 3:
-        #   return pisteet_tietokone
+
         return 0
 
 

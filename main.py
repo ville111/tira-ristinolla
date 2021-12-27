@@ -128,6 +128,7 @@ class Ristinolla:
                             (255,255,255),
                             (pysty_positio, 0),
                             (pysty_positio, korkeus-2),1)
+                
                 merkki = self.ruudukko.anna_merkki(i,j)
                 if merkki:
                     vari = (255,0,0)
