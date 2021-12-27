@@ -3,3 +3,6 @@ source = ristinolla
 omit = 
 	ristinolla/testit/**
 	ristinolla/__init__.py
+	ristinolla/transponointitaulukko.py
+	ristinolla/merkinta.py
+
