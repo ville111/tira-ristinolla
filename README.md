@@ -10,6 +10,10 @@ $python main.py
 
 <hr />
 <p>
+Käyttöohje <br />
+https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/K%C3%A4ytt%C3%B6ohje.pdf
+</p>
+<p>
 Määrittelydokumentti <br />
 https://github.com/ville111/tira-ristinolla/blob/main/dokumentaatio/M%C3%A4%C3%A4rittelydokumentti.pdf
 </p>
