@@ -1,7 +1,7 @@
 [MASTER]
 
 ignore=testit,index.py
-good-names=x,y,i,j,n,a,b
+good-names=x,y,i,j,n,a,b,x1,x2,y1,y2,id
 
 [MESSAGE CONTROL]
 
